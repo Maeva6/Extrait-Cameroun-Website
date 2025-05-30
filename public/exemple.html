@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mobile</title>
+    <style>
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Barre de navigation */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .menu-btn {
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .user-icon {
+            font-size: 20px;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            margin-top: 60px;
+            padding: 15px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        /* Mises à jour */
+        .update-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .update-date {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .update-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .see-more {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        /* Statistiques */
+        .stats-chart {
+            height: 200px;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .bars {
+            display: flex;
+            height: 150px;
+            align-items: flex-end;
+            justify-content: space-around;
+        }
+        
+        .bar {
+            width: 10%;
+            background: #3498db;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+        }
+        
+        .day-label {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            transform: rotate(-45deg);
+            transform-origin: left top;
+        }
+        
+        /* Menu latéral */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #2c3e50;
+            color: white;
+            transition: left 0.3s;
+            z-index: 200;
+            padding-top: 60px;
+        }
+        
+        .side-menu.active {
+            left: 0;
+        }
+        
+        .menu-item {
+            padding: 15px;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .menu-item:first-child {
+            border-top: 1px solid #34495e;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 150;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de navigation -->
+    <div class="nav-bar">
+        <button class="menu-btn">≡</button>
+        <h1>DASHBOARD</h1>
+        <div class="user-icon">👤</div>
+    </div>
+    
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <!-- Section Mises à jour -->
+        <div class="section">
+            <div class="section-title">
+                <h2>Mises à jour produits</h2>
+                <button class="toggle-btn">+</button>
+            </div>
+            <div class="updates-content">
+                <div class="update-item">
+                    <div class="update-date">24/05/2025 14:30</div>
+                    <div class="update-meta">
+                        <span>Sophie. M</span>
+                        <span>Stock réduit</span>
+                    </div>
+                    <div class="update-details">Parfum réduit de 5 unités</div>
+                </div>
+                <div class="update-item">
+                    <div class="update-date">24/05/2025 10:15</div>
+                    <div class="update-meta">
+                        <span>Sophie. M</span>
+                        <span>Stock réduit</span>
+                    </div>
+                    <div class="update-details">Parfum réduit de 5 unités</div>
+                </div>
+                <a href="#" class="see-more">Voir plus</a>
+            </div>
+        </div>
+        
+        <!-- Section Statistiques -->
+        <div class="section">
+            <div class="section-title">
+                <h2>Statistiques hebdomadaires</h2>
+            </div>
+            <div class="stats-chart">
+                <div class="bars">
+                    <div class="bar" style="height: 30%;">
+                        <div class="day-label">Lun</div>
+                    </div>
+                    <div class="bar" style="height: 50%;">
+                        <div class="day-label">Mar</div>
+                    </div>
+                    <div class="bar" style="height: 70%;">
+                        <div class="day-label">Mer</div>
+                    </div>
+                    <div class="bar" style="height: 90%;">
+                        <div class="day-label">Jeu</div>
+                    </div>
+                    <div class="bar" style="height: 60%;">
+                        <div class="day-label">Ven</div>
+                    </div>
+                    <div class="bar" style="height: 40%;">
+                        <div class="day-label">Sam</div>
+                    </div>
+                    <div class="bar" style="height: 20%;">
+                        <div class="day-label">Dim</div>
+                    </div>
+                </div>
+            </div>
+            <button class="see-more" style="width: 100%; background: none; border: none; color: #3498db; padding: 10px;">
+                Afficher détails
+            </button>
+        </div>
+    </div>
+    
+    <!-- Menu latéral -->
+    <div class="side-menu">
+        <button class="close-btn">×</button>
+        <div class="menu-item">Dashboard</div>
+        <div class="menu-item">Destinations</div>
+        <div class="menu-item">Produits</div>
+        <div class="menu-item">Ventes</div>
+        <div class="menu-item">Employés</div>
+        <div class="menu-item">Clients</div>
+        <div class="menu-item">Historique</div>
+        <div class="menu-item">Rapports</div>
+        <div class="menu-item">Paramètres</div>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay"></div>
+    
+    <script>
+        // Gestion du menu mobile
+        const menuBtn = document.querySelector('.menu-btn');
+        const sideMenu = document.querySelector('.side-menu');
+        const overlay = document.querySelector('.overlay');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        menuBtn.addEventListener('click', () => {
+            sideMenu.classList.add('active');
+            overlay.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        overlay.addEventListener('click', () => {
+            sideMenu.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+        
+        // Gestion des sections accordéon
+        const toggleBtns = document.querySelectorAll('.toggle-btn');
+        
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.closest('.section');
+                const content = section.querySelector('.updates-content');
+                
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    this.textContent = '-';
+                } else {
+                    content.style.display = 'none';
+                    this.textContent = '+';
+                }
+            });
+        });
+        
+        // Par défaut, masquer le contenu des mises à jour
+        document.querySelector('.updates-content').style.display = 'none';
+        document.querySelector('.toggle-btn').textContent = '+';
+    </script>
+</body>
+</html>
