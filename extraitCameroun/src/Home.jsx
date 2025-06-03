@@ -7,6 +7,8 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa';
 import ProductCarousel from './ProductCarousel';
 import CollectionCarousel from './CollectionCarousel';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Home() {
   //images pour le signup 
@@ -16,6 +18,7 @@ export default function Home() {
   "https://i.imgur.com/BEvklW6.jpeg",
 ];
 const [promoIndex, setPromoIndex] = useState(0);
+const navigate = useNavigate();
 
 useEffect(() => {
   const timer = setInterval(() => {
@@ -42,23 +45,16 @@ useEffect(() => {
         <h2 className="text-xl font-semibold mb-2">Find Your Perfect Scent</h2>
         <p className="mb-4 text-sm">Answer a few simple questions to discover your fragrance...</p>
         <p className="mb-4 text-[10px]">By proceeding, you agree to our Terms and Conditions and Privacy Policy.</p>
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">Find My Fragrance</button>
+        <button
+  onClick={() => navigate('/find-my-fragrance')}
+  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+>
+  Find My Fragrance
+  </button>
       </section>
 
       <ProductCarousel />
-
       {/* Product Carousel */}
-      {/* <section className="px-4 my-8">
-         <h3 className="text-lg font-semibold mb-4">Explore Our Collections</h3>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className="text-center">
-            <img src="https://i.imgur.com/xhoO5xY.jpeg" />
-            <p className="text-sm font-medium">Eau de parfum Jasmin Dream</p>
-            <p className="text-xs text-gray-600">Référence</p>
-          </div> */}
-          {/* Autres produits ici */}
-        {/* </div>
-      </section> */}
       <CollectionCarousel/>
 
       {/* Accessories */}

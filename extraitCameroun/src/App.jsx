@@ -12,6 +12,7 @@ import { CartProvider } from "./contexts/CartContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GiftSet from './GiftSet';
+import FragranceQuizStep1 from './FragranceQuizStep1';
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
             {/*paiement*/}
             {/* <Route path="/checkout" element={<Checkout />} /> */}
             <Route path="/Home" element={<Home />} />
+<Route path="/find-my-fragrance" element={<FragranceQuizStep1 />} />
           </Routes>
         </FavoritesProvider>
       </CartProvider>
