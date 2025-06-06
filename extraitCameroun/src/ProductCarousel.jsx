@@ -1,92 +1,51 @@
-// 📁 src/ProductCarousel.jsx
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import { useNavigate } from 'react-router-dom';
 
-const products = [
+const categories = [
   {
-    id: 1,
-    name: 'Eau de parfum - Rose bonbon',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/r6TtZSk.jpeg',
-    available: true,
+    title: 'Senteurs d’ambiance',
+    description: 'Créez une atmosphère chaleureuse et accueillante avec nos diffuseurs et parfums d’intérieur aux essences naturelles.',
+    image: 'https://i.imgur.com/r1hFT0a.jpeg',
+    link: '/famille/parfums-dambiance',
   },
   {
-    id: 2,
-    name: 'Eau de parfum - Fresh Citrus',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/Pq4w412.jpeg',
-    available: false,
+    title: 'Senteurs corporelles',
+    description: 'Laissez votre peau s’imprégner de fragrances envoûtantes, raffinées et conçues pour sublimer votre identité olfactive.',
+    image: 'https://i.imgur.com/cKWMwMI.jpeg',
+    link: '/famille/parfums-de-corps',
   },
   {
-    id: 3,
-    name: 'Eau de parfum - Jasmine Dream',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/aVoSeaN.jpeg',
-    available: true,
-  },
-  {
-    id: 4,
-    name: 'Eau de parfum - Rose Essence',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/SEOKOAe.jpeg',
-    available: true,
-  },
-  {
-    id: 4,
-    name: 'Eau de parfum - Rose Essence',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/nu0pQl2.jpeg',
-    available: true,
-  },
-  {
-    id: 4,
-    name: 'Eau de parfum - Rose Essence',
-    price: '3500 FCFA',
-    img: 'https://i.imgur.com/7zsDJks.jpeg',
-    available: true,
+    title: 'Cosmétiques',
+    description: 'Prenez soin de votre peau avec notre gamme cosmétique à base d’extraits de ruche et soins hydratants naturels.',
+    image: 'https://i.imgur.com/ftmpqSr.jpeg',
+    link: '/famille/cosmetiques',
   },
 ];
 
 const ProductCarousel = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="border-y py-8 px-4">
-      {/* <h3 className="text-lg font-semibold mb-4 text-center">Explore Our Collections</h3> */}
-      <Swiper
-        spaceBetween={20}
-        slidesPerView={1}
-        breakpoints={{
-          640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
-        }}
-        loop={true}
-        autoplay={{ delay: 3000 }}
-        navigation
-        pagination={{ clickable: true }}
-        modules={[Navigation, Pagination, Autoplay]}
-      >
-        {products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <div className="text-center">
-              <img
-                src={product.img}
-                alt={product.name}
-                className="w-full h-80 object-cover mb-2 rounded"
-              />
-              {!product.available && (
-                <p className="text-red-600 text-xs mb-1">indisponible</p>
-              )}
-              <p className="text-sm font-medium">{product.name}</p>
-              <p className="text-xs text-gray-600">{product.price}</p>
-              <a href="#" className="text-xs underline text-black">add to cart</a>
+    <section className="py-12 bg-gray-50">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+        {categories.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => navigate(item.link)}
+            className="relative cursor-pointer group h-[400px] rounded-2xl overflow-hidden shadow-lg"
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center text-white px-4 transition-opacity duration-300 group-hover:bg-opacity-60">
+              <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
+              <p className="text-sm">{item.description}</p>
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </div>
     </section>
   );
 };

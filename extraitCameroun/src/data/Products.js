@@ -1,7 +1,21 @@
 import { generateSlug } from "../utils/generateSlug";
 // src/data/products.js
 const rawProducts = [
+//   {
+//   id: 1,
+//   name: "Black Orchid",
+//   slug: "black-orchid",
+//   price: "12000 Fcfa",
+//   size: "30ml",
+//   category: "Eau de parfum",
+//   imageUrl: "https://i.imgur.com/Ix0zOol.jpeg",
+//   description: "Un parfum mystérieux et élégant...",
+//   olfactiveFamily: "Oriental boisé - Chaud et sensuel",
+//   keyIngredients: ["Truffe noire", "Ylang-ylang", "Bergamote"],
+//   rating: 4.8
+// },
   {
+
     id: 1,
     name: "Black Orchid",
     price: "15000 Fcfa",
@@ -11,6 +25,9 @@ const rawProducts = [
     description: `Nos parfums sont inspires de vos  marques préferées, des senteurs quasi identiques, une teneur en parfum largement au dessus des parfums du commerce a un prix très accessible.`,
     utilisation: 'Utilisation : Spray sur le corps',
     particularité: 'Particularité : Teneur en parfum plus élevée que dans les Eau De Parfum du commerce Tiennent plus de 24h sur la peau et sur les vêtements Packaging Premium Fabrication Artisanale Camerounaise',
+     olfactiveFamily: "Oriental boisé - Chaud et sensuel",
+  keyIngredients: ["Truffe noire", "Ylang-ylang", "Bergamote"],
+  // rating: 4.8
   },
 {
       id: 5,

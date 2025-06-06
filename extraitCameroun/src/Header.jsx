@@ -7,44 +7,55 @@ import menuIcon from './assets/icons/menu.svg';
 import closeIcon from './assets/icons/close.svg';
 import logo from './assets/icons/logo.svg';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useCartStore } from './store/CartStore';
+import {FaSearch} from 'react-icons/fa';
+import FloatingCart from "./components/FloatingCart";
+
+
 
 export default function Header() {
+    const navigate = useNavigate();
+    const toggleCart = useCartStore((state) => state.toggleCart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const menuItems = [
-    {
-      label: 'Famille',
-      sub: [
-        { label: 'Parfums de corps', link: '/famille/parfums-de-corps' },
-      { label: "Parfums d'ambiance", link: '/famille/parfums-dambiance' },
-      { label: 'Cires et gels', link: '/famille/cires-et-gels' },
-      { label: 'Accessoires', link: '/famille/accessoires' },
-      { label: 'Extraits de ruche', link: '/famille/extraits-de-ruche' },
-      { label: 'Body care', link: '/famille/body-care' },
-      ],
-    },
-    {
-      label: 'Services',
-      sub: [
-        { label: 'Gift set for special occasion', link: '/services/gift-set' },
-      { label: 'Customized home fragrances', link: '/services/home-fragrances' },
-      { label: 'Personnalized Candles', link: '/services/candles' },
-      ],
-    },
-    {
-      label: 'Collection',
-      sub: [{ label: 'Classiques', link: '/collection/classiques' },
-      { label: 'Nouveautés', link: '/collection/nouveautes' },],
-    },
+    // {
+    //   label: 'Famille',
+    //   sub: [
+        { label: 'Senteurs d\'ambiance', link: '/famille/parfums-de-corps' },
+      { label: "Senteurs corporelles", link: '/famille/parfums-dambiance' },
+    //   { label: 'Cires et gels', link: '/famille/cires-et-gels' },
+    { label: 'Cosmétiques', link: '/famille/extraits-de-ruche' },
+    { label: 'Accessoires', link: '/famille/accessoires' },
+    //   { label: 'Body care', link: '/famille/body-care' },
+    //   ],
+    // }, 
+    // {
+    //   label: 'Services',
+    //   sub: [
+        { label: 'Services', link: '/services/gift-set' },
+    //   { label: 'Customized home fragrances', link: '/services/home-fragrances' },
+    //   { label: 'Personnalized Candles', link: '/services/candles' },
+    //   ],
+    // },
+    // {
+    //   label: 'Collection',
+    //   sub: [{ label: 'Classiques', link: '/collection/classiques' },
+    //   { label: 'Nouveautés', link: '/collection/nouveautes' },],
+    // },
     {
       label: 'Notre Histoire',
       link: '/notre-histoire',
     },
+    { label: 'Contact Us', link: '/contact' },
   ];
 
   return (
-    <header className=" font-montserrat px-4 py-2 shadow-md bg-white relative z-50">
+    // <header className=" font-montserrat px-4 py-6 shadow-md bg-white relative z-50">
+    <header className="font-montserrat px-4 py-6 shadow-md bg-white fixed top-0 left-0 w-full z-50">
+
       {/* Ligne principale */}
       <div className="font-bold font-montserrat flex items-center justify-between gap-4">
         {/* Menu hamburger (mobile) */}
@@ -60,7 +71,7 @@ export default function Header() {
 
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="Logo" className="h-8" />
+          <img src={logo} alt="Logo" className="h-12" />
           <span className="text-sm font-semibold">EXTRAITS Cameroun</span>
         </div>
 
@@ -68,9 +79,9 @@ export default function Header() {
         <nav className="hidden md:flex gap-6 text-sm ml-4">
           {menuItems.map((item, i) => (
             <div key={i} className="group relative cursor-pointer">
-              <div className="flex items-center gap-1 hover:underline">
+              <div className="flex items-center gap-1 hover:text-[#d4af37] transition-colors">
                 {item.link ? (
-                  <Link to={item.link} className="hover:underline">
+                  <Link to={item.link} className="hover:text-[#d4af37] transition-colors">
                     {item.label}
                   </Link>
                 ) : (
@@ -84,7 +95,7 @@ export default function Header() {
   <li key={j} className="py-1">
     <Link
       to={sublink.link}
-      className="block hover:underline"
+      className="block hover:text-[#d4af37] transition-colors"
       onClick={() => setMenuOpen(false)}
     >
       {sublink.label}
@@ -99,13 +110,26 @@ export default function Header() {
 
         {/* Recherche + icônes */}
         <div className="flex items-center justify-between gap-4">
-          <input
+          {/* <input
             type="text"
             placeholder="Rechercher..."
             className="border px-2 py-1 rounded text-sm w-full md:w-48"
-          />
-          <img src={userIcon} alt="User" className="w-5 h-5" />
-          <img src={cartIcon} alt="Cart" className="w-5 h-5" />
+          /> */}
+         <div className="relative w-36 sm:w-48 md:w-64">
+  <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm sm:text-base" />
+  <input
+    type="text"
+    placeholder="Rechercher..."
+    className="pl-10 pr-3 py-2 border rounded text-sm sm:text-base w-full"
+  />
+</div>
+
+
+          <img src={userIcon} alt="User" className="w-5 h-5 cursor-pointer" onClick={() => navigate('/login')} />
+          {/* <img src={cartIcon} alt="Cart" className="w-5 h-5 cursor-pointer" onClick={() => toggleCart()} /> */}
+          <FloatingCart fromHeader />
+
+
         </div>
       </div>
 
@@ -139,7 +163,7 @@ export default function Header() {
       <li key={j} className="py-1 text-sm">
         <Link
           to={sublink.link}
-          className="block hover:underline"
+          className="block hover:text-[#d4af37] transition-colors"
           onClick={() => setMenuOpen(false)}
         >
           {sublink.label}

@@ -12,7 +12,7 @@ export default function FragranceQuizStep1() {
       <Header />
       
       {/* Barre de progression */}
-      <div className="h-2 bg-gray-300">
+      <div className="h-2 bg-gray-300 padding-top pt-24">
         <div className="h-2 bg-yellow-500 w-1/3"></div> {/* 33% progress */}
       </div>
 
