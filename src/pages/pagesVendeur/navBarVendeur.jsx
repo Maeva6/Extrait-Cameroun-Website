@@ -1,56 +1,29 @@
 import { useState, useEffect } from 'react';
-import {
-  Home,
-  Package,
-  ShoppingCart,
-  Users,
-  User,
-  History,
-  FileText,
-  Settings,
-} from 'lucide-react';
-import logoExtrait from '../assets/logoExtrait.svg';
-import { useLocation, Link } from 'react-router-dom';
+import { Home, ShoppingCart, SprayCan, Users, Settings } from 'lucide-react';
+import logoExtrait from '../../assets/logoExtrait.svg';
+import { useNavigate } from 'react-router-dom';
 
 const menuItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: <Home size={18} /> },
-  { id: 'produits', label: 'Produits', icon: <Package size={18} /> },
-  { id: 'ventes', label: 'Ventes', icon: <ShoppingCart size={18} /> },
-  { id: 'employes', label: 'Employes', icon: <Users size={18} /> },
-  { id: 'clients', label: 'Clients', icon: <User size={18} /> },
-  { id: 'historique', label: 'Historique', icon: <History size={18} /> },
-  { id: 'rapports', label: 'Rapports', icon: <FileText size={18} /> },
-  { id: 'parametres', label: 'Parametres', icon: <Settings size={18} /> },
-
+  { label: 'Dashboard', icon: <Home size={18} />, path: '/vendeur/dashboard' },
+  { label: 'Produits', icon: <SprayCan size={18} />, path: '/vendeur/produits' },
+  { label: 'Commandes', icon: <ShoppingCart size={18} />, path: '/vendeur/commandes' },
+  { label: 'Clients', icon: <Users size={18} />, path: '/vendeur/clients' },
+  { label: 'Parametres', icon: <Settings size={18} />, path: '/vendeur/parametres' },
 ];
 
-export default function Navbar() {
-  const location = useLocation();
+export default function NavbarVendeur() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const [active, setActive] = useState('Dashboard');
+  const navigate = useNavigate();
 
-  const [active, setActive] = useState(() => {
-    const path = window.location.pathname;
-    if (path.includes('/Rapport')) return 'rapports';
-    return 'dashboard'
-  });
-
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path.includes('/Rapport')) {
-      setActive('rapports');
-    }
-  }, [location]); // Dépendance à location si vous utilisez react-router
-
-  // Gestion du responsive
   useEffect(() => {
     const handleResize = () => {
       const newIsDesktop = window.innerWidth >= 1024;
       setIsDesktop(newIsDesktop);
-      // Ferme le menu mobile si on passe en desktop
       if (newIsDesktop && isOpen) setIsOpen(false);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [isOpen]);
@@ -61,37 +34,28 @@ export default function Navbar() {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <img src={logoExtrait} alt="Logo" className="w-10 h-10 mr-2 rounded-full" />
-          <span className="text-lg font-semibold">Admin Panel</span>
+          <span className="text-lg font-semibold">Vendor Panel</span>
         </div>
-        {!isDesktop && (
-          <button 
-            onClick={() => setIsOpen(false)} 
-            className="text-white text-xl"
-            aria-label="Fermer le menu"
-          >
-            ✕
-          </button>
-        )}
       </div>
       <div className="h-1 bg-[#D4AF37] w-full mb-8 rounded" />
 
       {/* Menu items */}
       <ul className="space-y-2 w-full">
         {menuItems.map((item) => (
-          <li key={item.id}>
-            <Link
-              to={`/${item.id}`}
+          <li key={item.label}>
+            <button
               onClick={() => {
-                setActive(item.id);
-                if (!isDesktop) setIsOpen(false); // Ferme le menu mobile après clic
+                setActive(item.label);
+                navigate(item.path);
+                if (!isDesktop) setIsOpen(false);
               }}
               className={`flex items-center w-full px-3 py-2 rounded text-left gap-3 transition-all
-                ${active === item.id ? 'bg-[#D4AF37] text-white font-semibold' : 'hover:bg-gray-800'}
+                ${active === item.label ? 'bg-[#D4AF37] text-white font-semibold' : 'hover:bg-gray-800'}
               `}
             >
               {item.icon}
               <span>{item.label}</span>
-            </Link>
+            </button>
           </li>
         ))}
       </ul>
@@ -123,14 +87,11 @@ export default function Navbar() {
       {/* Sidebar mobile (overlay) */}
       {!isDesktop && isOpen && (
         <div className="fixed inset-0 z-50 flex">
-          {/* Fond sombre cliquable pour fermer */}
           <div
             className="fixed inset-0 bg-black bg-opacity-50"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           ></div>
-
-          {/* Menu mobile */}
           <nav className="relative bg-black text-white w-64 h-screen p-4 shadow-md z-50">
             {renderMenuContent()}
           </nav>
