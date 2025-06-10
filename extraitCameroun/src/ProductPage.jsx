@@ -1,13 +1,10 @@
 import { useParams } from "react-router-dom";
-import ShowProductHeader from "./ShowProductHeader";
+import Header from "./Header";
 import Footer from "./Footer";
 import { useCart } from "./contexts/CartContext";
 import { useFavorites } from "./contexts/FavoritesContext";
-import { ShoppingCart } from "lucide-react"; // Si tu utilises Lucide ou une autre lib d'icônes
-import FloatingCart from "./components/FloatingCart";
+import { ShoppingCart } from "lucide-react";
 import { products } from "./data/Products";
-
-
 
 export default function ProductPage() {
   const { slug } = useParams();
@@ -21,45 +18,54 @@ export default function ProductPage() {
 
   return (
     <>
-      <ShowProductHeader activeCategory={product.category} />
-      <div className="fixed top-24 right-4 z-50">
-  <FloatingCart />
-</div>
-      <div className="font-bold font-montserrat px-4 py-8 max-w-4xl mx-auto text-center">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="mx-auto w-72 h-auto rounded-lg shadow-md mb-6"
-        />
-        <h2 className="text-yellow-700 font-bold text-xl">{product.category} : {product.name}</h2>
-        <p className="text-yellow-600 text-lg">{product.price}</p>
-        <p className="text-yellow-600 mb-6">{product.size}</p>
+      <Header activeCategory={product.category} />
 
-        <p className="font-bold font-montserrat text-sm text-gray-800 leading-relaxed max-w-2xl mx-auto mb-6">
-          {product.description}
-        </p>
-        <p className=" font-bold font-montserrat text-yellow-600 mb-6">{product.utilisation}</p>
-        
-        <p className="font-bold font-montserrat text-sm text-gray-800 leading-relaxed max-w-xl mx-auto mb-6">
-          {product.particularité}
-        </p>
-        <div className="flex justify-center gap-4 mb-12">
-          <button
-            onClick={() => addToCart(product)}
-            className="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 shadow flex items-center gap-2"
-          >
-            <ShoppingCart size={20} />
-            Ajouter au panier
-          </button>
-          <button
-            onClick={() => addToFavorites(product)}
-            className="border border-red-400 text-red-500 px-4 py-2 rounded-full hover:bg-red-50 shadow"
-          >
-            ❤️ Ajouter au favoris
-          </button>
+      <div className="pt-28 px-8 md:px-16 lg:px-24 font-montserrat font-bold bg-white min-h-screen my-10">
+        <div className="flex flex-col md:flex-row gap-10 items-start">
+          {/* Image colonne gauche */}
+          <div className="flex w-full md:w-1/2 sticky top-28 self-start justify-center">
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="w-full max-w-sm mx-auto md:mx-0 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 will-change-transform"
+            />
+          </div>
+
+          {/* Infos colonne droite */}
+          <div className="w-full md:w-1/2 space-y-6 overflow-y-auto">
+            <h2 className="text-yellow-700 text-2xl">{product.category} : {product.name}</h2>
+            <p className="text-yellow-600 text-lg">{product.price}</p>
+            <p className="text-yellow-600">{product.size}</p>
+
+            <p className="text-gray-800 text-sm leading-relaxed">
+              {product.description}
+            </p>
+
+            <p className="text-yellow-600">{product.utilisation}</p>
+
+            <p className="text-gray-800 text-sm leading-relaxed">
+              {product.particularité}
+            </p>
+
+            <div className="flex gap-4 flex-wrap">
+              <button
+                onClick={() => addToCart(product)}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 shadow flex items-center gap-2"
+              >
+                <ShoppingCart size={20} />
+                Ajouter au panier
+              </button>
+              <button
+                onClick={() => addToFavorites(product)}
+                className="border border-red-400 text-red-500 px-4 py-2 rounded-full hover:bg-red-50 shadow"
+              >
+                ❤️ Ajouter au favoris
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-       
+
       <Footer />
     </>
   );

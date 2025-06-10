@@ -24,9 +24,9 @@ export default function Header() {
     // {
     //   label: 'Famille',
     //   sub: [
-        { label: 'Senteurs d\'ambiance', link: '/famille/parfums-de-corps' },
-      { label: "Senteurs corporelles", link: '/famille/parfums-dambiance' },
-    //   { label: 'Cires et gels', link: '/famille/cires-et-gels' },
+    { label: 'Home', link: '/Home' },
+        { label: 'Senteurs d\'ambiance', link: '/famille/parfums-dambiance' },
+      { label: "Senteurs corporelles", link: '/famille/parfums-de-corps' },
     { label: 'Cosmétiques', link: '/famille/extraits-de-ruche' },
     { label: 'Accessoires', link: '/famille/accessoires' },
     //   { label: 'Body care', link: '/famille/body-care' },
@@ -49,12 +49,12 @@ export default function Header() {
       label: 'Notre Histoire',
       link: '/notre-histoire',
     },
-    { label: 'Contact Us', link: '/contact' },
+   
   ];
 
   return (
     // <header className=" font-montserrat px-4 py-6 shadow-md bg-white relative z-50">
-    <header className="font-montserrat px-4 py-6 shadow-md bg-white fixed top-0 left-0 w-full z-50">
+    <header className="top-[64px]font-montserrat px-4 py-6 shadow-md bg-white fixed top-0 left-0 w-full z-50">
 
       {/* Ligne principale */}
       <div className="font-bold font-montserrat flex items-center justify-between gap-4">

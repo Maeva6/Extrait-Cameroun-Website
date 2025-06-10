@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import ShowProductHeader from "./ShowProductHeader";
+import Header from "./Header";
 import Footer from "./Footer";
 
 export default function BodyPerfume() {
@@ -300,8 +300,8 @@ const stopDrag = () => {
 
   return (
     <>
-      <ShowProductHeader />
-      <div className="px-6 py-4">
+      <Header />
+      <div className="pt-24 px-6 py-4">
         {categories.map((category) => {
           const selectedSize = selectedSizes[category] || "";
 const filteredByCategory = products.filter((p) => p.category === category);

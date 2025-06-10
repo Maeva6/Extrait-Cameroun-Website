@@ -3,7 +3,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
-import hommeImg from './assets/images/homme.jpeg';
+import hommeImg from './assets/images/homme.jpg';
 import femmeImg from './assets/images/femme.jpg';
 
 
@@ -28,7 +28,7 @@ export default function FragranceQuizStep1() {
             onClick={() => navigate('/fragrance-step2-homme')}
             className="border rounded-lg p-6 w-64 bg-white hover:shadow-lg border-yellow-400 text-center"
           >
-            <img src={hommeImg} alt="Parfum Homme" className="w-40 h-40 object-cover hover:border-yellow-400 rounded-full mx-auto mb-4" />
+            <img src={hommeImg} alt="Parfum Homme" className="w-40 h-40 object-cover rounded-full mx-auto mb-4" />
             <h2 className="font-bold mb-2">Homme</h2>
             <p className="text-sm text-gray-600">Élégance, caractère, intensité. Une fragrance qui vous révèle.</p>
           </button>

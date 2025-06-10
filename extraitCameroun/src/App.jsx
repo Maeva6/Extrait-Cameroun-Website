@@ -17,6 +17,7 @@ import FragranceQuizStep2 from './FragranceQuizStep2';
 import FragranceQuizStep3 from './FragranceQuizStep3';
 import FloatingCart from './components/FloatingCart';
 import { useCartStore } from './store/CartStore';
+import FragranceQuizStep2Homme from './FragranceQuizStep2Homme'; // Import pour le choix par parfum homme
 
 export default function App() {
 
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/quiz/resultat" element={<FragranceQuizStep3 />} />
             <Route path="/quiz/parfum" element={<FragranceQuizStep2 />} /> {/* pour le choix par parfum */}
           <Route path='/cart' element={<FloatingCart />} />
+          <Route path="/fragrance-step2-homme" element={<FragranceQuizStep2Homme />} /> {/* pour le choix par parfum homme */}
           </Routes>
 
           {/* Panier flottant global */}  

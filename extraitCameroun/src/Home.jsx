@@ -15,9 +15,9 @@ import fragrance3 from './assets/images/fragrance3.jpg';
 
 export default function Home() {
   const promoImages = [
-    "https://i.imgur.com/uFW2x7U.jpeg",
-    "https://i.imgur.com/JziUFQX.jpeg",
-    "https://i.imgur.com/BEvklW6.jpeg",
+    "https://i.imgur.com/NViKext.png",
+    //"https://i.imgur.com/hwpuORW.jpeg",
+    //"https://i.imgur.com/BEvklW6.jpeg",
   ];
   const [promoIndex, setPromoIndex] = useState(0);
 
@@ -26,12 +26,12 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setPromoIndex((prev) => (prev + 1) % promoImages.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     setPromoIndex((prev) => (prev + 1) % promoImages.length);
+  //   }, 3000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   useEffect(() => {
     const fragranceTimer = setInterval(() => {
@@ -137,13 +137,13 @@ export default function Home() {
       </section>
 
       {/* Livraison */}
-      <section className="bg-yellow-100 py-6 px-4 text-center">
+      <section className="font-bold font-montserrat bg-yellow-100 py-6 px-4 text-center">
         <div className="flex flex-col items-center justify-center">
-          <FaShoppingCart className="text-yellow-600 text-3xl mb-2" />
-          <h4 className="text-md font-bold mb-2">
+          <FaShoppingCart className="text-yellow-600 text-6xl mb-8" />
+          <h1 className="w-xl text-[2rem] font-bold mb-2">
             Où que vous soyez, notre fragrance vous rejoint.
-          </h4>
-          <p className="text-sm mb-4">
+          </h1>
+          <p className="text-sm mb-8">
             Vous êtes indisponible ? Nos parfums viennent à vous.<br />
             Faites-vous livrer dès aujourd’hui.
           </p>
@@ -153,24 +153,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Promo banner */}
-      <section className="text-center my-8">
-        <div className="relative w-full max-w-md mx-auto overflow-hidden rounded-xl">
-          <img
-            src={promoImages[promoIndex]}
-            alt={`Promo ${promoIndex + 1}`}
-            className="w-full h-auto transition-opacity duration-700 ease-in-out"
-          />
-        </div>
+       <section className="relative w-full h-[500px] overflow-hidden my-12">
+      <img
+        src={promoImages}
+        alt="Promo"
+        className="w-full h- object-cover"
+      />
 
-        <div className="flex justify-center mt-4">
-          <FaUsers className="text-yellow-600 text-3xl" />
-        </div>
-        <p className="font-semibold my-4">Rejoignez notre univers parfumé dès maintenant.</p>
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+      {/* Contenu superposé */}
+      <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-white text-center px-4">
+        <FaUsers className="text-yellow-400 text-6xl mb-4" />
+        <p className="text-xl md:text-2xl font-semibold mb-4">
+          Rejoignez notre univers parfumé dès maintenant.
+        </p>
+        <button
+          onClick={() => navigate("/inscription")}
+          className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded text-lg"
+        >
           S'inscrire
         </button>
-      </section>
+      </div>
+    </section>
 
       <Footer />
     </div>

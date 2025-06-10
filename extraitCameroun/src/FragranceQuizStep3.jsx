@@ -32,7 +32,7 @@ export default function FragranceQuizStep3() {
   return (
     <div>
       <Header />
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 pt-24">
         {!showResult ? (
           <div className="grid grid-cols-3 gap-4 animate-pulse">
             {ingredientImages.map((src, index) => (

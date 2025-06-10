@@ -7,60 +7,60 @@ import Footer from './Footer';
 const ingredients = [
   {
     id: 1,
-    name: "Douce et apaisante 🌸",
-    description: "Des notes sucrées et enveloppantes aux accents de vanille, de musc blanc ou de fleurs tendres, idéales pour une sensation de bien-être et de confort.",
-    image: "/images/douces-apaisantes.jpg"
+    name: "Sûr de lui et charismatique 💼",
+    description: "Des notes boisées profondes, de cuir ou d'épices chaudes qui évoquent la puissance, la confiance et le leadership naturel.",
+    image: "/images/charismatique-sur.jpg"
+  },
+  {
+    id: 2,
+    name: "Sportif et énergique 🏋️‍♂️",
+    description: "Des accords frais et vivifiants à base d'agrumes, de menthe ou de notes marines pour un parfum dynamique et plein d’entrain.",
+    image: "/images/sportif-energique.jpg"
   },
   {
     id: 3,
-    name: "Élégante et sophistiquée 💎",
-    description: "Des accords floraux nobles, boisés et parfois poudrés, qui traduisent une allure raffinée et intemporelle.",
-    image: "/images/élégantes-sophistiqués.jpg"
-  },
-
-   {
-    id: 2,
-    name: "Joyeuse et pétillante ☀️",
-    description: "Un cocktail d’agrumes, de fruits juteux et de fleurs lumineuses pour une sensation fraîche et vive, pleine d’énergie et de vitalité.",
-    image: "/images/joyeuses-pétillantes.jpg"
+    name: "Élégant et sophistiqué 🎩",
+    description: "Des senteurs raffinées mariant lavande, ambre ou bois nobles pour un style classique et irréprochable.",
+    image: "/images/élégant-sophistiqué.jpg"
   },
   {
     id: 4,
-    name: "Sensuelle et mystérieuse 🌙",
-    description: "Un parfum chaud et envoûtant, mêlant des notes orientales, ambrées ou gourmandes pour une aura magnétique et séduisante.",
-    image: "/images/sensuelle-mystérieuse.jpg"
+    name: "Mystérieux et intense 🌌",
+    description: "Un sillage sombre et captivant avec des notes orientales, résineuses ou fumées, pour un homme insaisissable et séduisant.",
+    image: "/images/mystérieux-intense.jpg"
   },
   {
     id: 5,
-    name: "Léger et frais",
-    description: "Des senteurs aériennes aux accents aquatiques, verts ou citronnés, parfaites pour un parfum discret et quotidien.",
-    image: "/images/léger-frais.jpg"
+    name: "Libre et aventurier 🌍",
+    description: "Un parfum inspiré par la nature et les grands espaces : accords boisés, aromatiques et verts pour l'homme en quête de liberté.",
+    image: "/images/libre-aventurier.jpg"
   },
   {
     id: 6,
-    name: "Moyen et équilibré",
-    description: "Un bon équilibre entre floral, sucré et boisé, qui offre une signature olfactive présente mais jamais envahissante.",
-    image: "/images/moyen-équilibré.jpg"
+    name: "Décontracté et naturel 👕",
+    description: "Des fragrances légères et aériennes à base de musc blanc, de thé vert ou de notes aquatiques, parfaites au quotidien.",
+    image: "/images/décontracté-naturel.jpg"
   },
   {
     id: 7,
-    name: "Intense et envoûtant",
-    description: "Des parfums profonds et puissants aux notes orientales, épicées ou boisées, parfaits pour laisser une empreinte marquante.",
-    image: "/images/intense-envoutant.jpg"
+    name: "Romantique et attentionné 💌",
+    description: "Un mélange subtil de notes florales masculines, poudrées ou sucrées pour une aura douce, tendre et touchante.",
+    image: "/images/romantique-attentionné.jpg"
   },
   {
     id: 8,
-    name: "Active et dynamique 🏃‍♀️",
-    description: "Des notes fraîches et propres aux accents de musc blanc, de fleurs vertes ou de fruits légers, idéales pour un style de vie actif.",
-    image: "/images/active-dynamique.jpg"
+    name: "Urbain et moderne 🏙️",
+    description: "Des accords innovants, métalliques ou ozoniques, qui capturent le rythme et l’élégance de la vie contemporaine.",
+    image: "/images/urbain-moderne.jpg"
   },
   {
     id: 9,
-    name: "Classique et raffinée 👗",
-    description: "Des accords intemporels, souvent chyprés ou poudrés, qui rappellent les grands parfums de maison. Élégance assurée.",
-    image: "/images/classiques-raffinée.jpg"
+    name: "Traditionnel et discret 👔",
+    description: "Des notes classiques de fougère, lavande ou bois de santal qui rassurent, tout en restant élégantes et sobres.",
+    image: "/images/traditionnel-discret.jpg"
   }
 ];
+
 
 export default function FragranceQuizStep2() {
   const [selected, setSelected] = useState([]);
