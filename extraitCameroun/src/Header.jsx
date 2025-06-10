@@ -27,7 +27,7 @@ export default function Header() {
     { label: 'Home', link: '/Home' },
         { label: 'Senteurs d\'ambiance', link: '/famille/parfums-dambiance' },
       { label: "Senteurs corporelles", link: '/famille/parfums-de-corps' },
-    { label: 'Cosmétiques', link: '/famille/extraits-de-ruche' },
+    { label: 'Cosmétiques', link: '/famille/cosmetiques' },
     { label: 'Accessoires', link: '/famille/accessoires' },
     //   { label: 'Body care', link: '/famille/body-care' },
     //   ],

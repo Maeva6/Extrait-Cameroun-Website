@@ -2,8 +2,9 @@
 import { Link } from "react-router-dom";
   import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import ShowProductHeader from "./ShowProductHeader";
+import Header from "./Header";
 import Footer from "./Footer";
+import ProductCard from "./ProductCard";
 import { generateSlug } from "./utils/generateSlug";
 
 export default function HomeFragrance() {
@@ -22,7 +23,14 @@ export default function HomeFragrance() {
       size: "120ml",
       category: "Diffuseurs de parfum à tiges aromatiques",
       imageUrl: "https://i.imgur.com/4riXP2u.jpeg",
-    },
+      ingredients: [
+    { name: "Vanille", image: "https://i.imgur.com/mpiJ8gA.jpeg" },
+    { name: "Citron", image: "https://i.imgur.com/iRdkexs.jpeg" }
+  ],
+  olfactoryFamily: "Fruité gourmand",
+  limited: true, // ou false
+  available: true // ou false
+},
     {
       id: 2,
       name: "Twilight",
@@ -186,8 +194,8 @@ const stopDrag = () => {
 
   return (
     <>
-      <ShowProductHeader />
-      <div className="px-6 py-4">
+      <Header />
+      <div className="px-6 py-4 pt-28 font-montserrat font-bold">
         {categories.map((category) => {
           const selectedSize = selectedSizes[category] || "";
 const filteredByCategory = products.filter((p) => p.category === category);
@@ -258,7 +266,7 @@ const filtered = filteredByCategory.filter(
           className="min-w-[150px] sm:min-w-[200px] text-center"
         >
           <Link to={`/product/${product.slug}`}>
-            <img
+            {/* <img
               src={product.imageUrl}
               alt={product.name}
               className="w-[180px] h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-200"
@@ -267,7 +275,9 @@ const filtered = filteredByCategory.filter(
               {product.name}
             </h3>
             <p className="text-yellow-600">{product.price}</p>
-             <p className="text-yellow-500 text-sm">{product.size}</p> {/* Ajout de la contenance */}
+             <p className="text-yellow-500 text-sm">{product.size}</p> Ajout de la contenance */}
+          <ProductCard product={product} />
+
           </Link>
         </div>
       ))}

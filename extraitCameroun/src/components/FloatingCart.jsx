@@ -31,19 +31,27 @@ export default function FloatingCart({ fromHeader = false }) {
         <img
           src={CartIcon}
           alt="Panier"
-          className="p-0 w-5 h-full object-contain cursor-pointer justify-center intems-center"
+          className="w-5 h-5 object-contain cursor-pointer"
           onMouseEnter={() => setAnimateBadge(true)}
         />
       </button>
 
       {distinctCount > 0 && (
+        // <span
+        //   className={`absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full ${
+        //     animateBadge ? "animate-bounce-scale" : ""
+        //   }`}
+        // >
+        //   {distinctCount}
+        // </span>
         <span
-          className={`absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full ${
-            animateBadge ? "animate-bounce-scale" : ""
-          }`}
-        >
-          {distinctCount}
-        </span>
+  className={`absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold leading-none px-1.5 py-0.5 rounded-full shadow-md ${
+    animateBadge ? "animate-bounce-scale" : ""
+  }`}
+>
+  {distinctCount}
+</span>
+
       )}
 
       {open && (

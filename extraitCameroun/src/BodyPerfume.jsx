@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Header from "./Header";
 import Footer from "./Footer";
+import ProductCard from "./ProductCard";
 
 export default function BodyPerfume() {
   const [selectedSizes, setSelectedSizes] = useState({});
@@ -301,7 +302,7 @@ const stopDrag = () => {
   return (
     <>
       <Header />
-      <div className="pt-24 px-6 py-4">
+      <div className="font-montserrat font-bold pt-28 px-6 py-4">
         {categories.map((category) => {
           const selectedSize = selectedSizes[category] || "";
 const filteredByCategory = products.filter((p) => p.category === category);
@@ -372,7 +373,7 @@ const filtered = filteredByCategory.filter(
           className="min-w-[150px] sm:min-w-[200px] text-center"
         >
           <Link to={`/product/${product.slug}`}>
-            <img
+            {/* <img
               src={product.imageUrl}
               alt={product.name}
               className="w-[180px] h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-200"
@@ -381,7 +382,8 @@ const filtered = filteredByCategory.filter(
               {product.name}
             </h3>
             <p className="text-yellow-600">{product.price}</p>
-             <p className="text-yellow-500 text-sm">{product.size}</p> {/* Ajout de la contenance */}
+             <p className="text-yellow-500 text-sm">{product.size}</p> Ajout de la contenance */}
+           <ProductCard product={product} />
           </Link>
         </div>
       ))}
