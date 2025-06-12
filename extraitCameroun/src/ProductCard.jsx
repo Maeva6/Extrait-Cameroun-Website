@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function ProductCard({ product }) {
   return (
-    <div className="bg-[#fff7ef] rounded-lg shadow-md p-4 w-[250px] flex flex-col items-center relative">
+    <div className="bg-yellow-100 rounded-lg shadow-md p-4 w-[250px] flex flex-col items-center relative">
       {!product.available && (
         <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
           INDISPONIBLE
@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
       <img
         src={product.imageUrl}
         alt={product.name}
-        className="w-[120px] h-[150px] object-contain"
+        className="w-[180px] h-[210px] object-contain"
       />
 
       <h3 className="text-center font-semibold mt-2 text-[#b07643] uppercase">{product.name}</h3>
@@ -42,7 +42,7 @@ export default function ProductCard({ product }) {
         to={`/product/${product.slug}`}
         className="mt-3 bg-black text-white text-xs font-bold py-2 px-4 rounded hover:bg-gray-800"
       >
-        ADD TO QUEUE
+        Wacth
       </Link>
     </div>
   );

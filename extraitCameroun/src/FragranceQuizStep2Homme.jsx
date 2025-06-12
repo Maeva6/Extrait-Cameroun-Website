@@ -92,7 +92,7 @@ export default function FragranceQuizStep2() {
         <div className="h-2 bg-yellow-500 w-2/3"></div> {/* 66% 
       </div> */}
       <div className="pt-24 bg-red-300">
-  <div className="h-4 bg-yellow-500 w-2/4"></div>
+  <div className="h-4 bg-yellow-500 w-2/3"></div>
 </div>
 
 

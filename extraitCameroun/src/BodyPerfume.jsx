@@ -302,7 +302,7 @@ const stopDrag = () => {
   return (
     <>
       <Header />
-      <div className="font-montserrat font-bold pt-28 px-6 py-4">
+      <div className="font-montserrat font-bold pt-28 px-6 py-4 bg-gray-50">
         {categories.map((category) => {
           const selectedSize = selectedSizes[category] || "";
 const filteredByCategory = products.filter((p) => p.category === category);

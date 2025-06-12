@@ -39,19 +39,33 @@ const { addToFavorites } = useFavorites();
   return (
     <div>
       <Header />
+      {/* Barre de progression */}
+      <div className="pt-24 bg-red-300">
+  <div className="h-4 bg-yellow-500 w-3/3"></div>
+</div>
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 pt-24">
         
         {showResult ? (
   <div className="pt-10 px-4 md:px-16 lg:px-24 font-montserrat font-bold bg-white w-full">
     <div className="flex flex-col md:flex-row gap-10 items-start">
       {/* Colonne image */}
-      <div className="flex w-full md:w-1/2 justify-center">
+      {/* <div className="flex w-full md:w-1/2 justify-center">
         <img
           src={recommendedProduct.imageUrl}
           alt={recommendedProduct.name}
           className="w-full max-w-sm mx-auto rounded-lg shadow-md transition-transform duration-300 hover:scale-105 will-change-transform"
         />
-      </div>
+      </div> */}
+      <div className="flex w-full md:w-1/2 sticky top-28 self-start justify-center">
+  <div className="bg-amber-800 p-4 rounded-lg">
+    <img
+      src={recommendedProduct.imageUrl}
+      alt={recommendedProduct.name}
+      className="w-full max-w-sm mx-auto md:mx-0 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 will-change-transform"
+    />
+  </div>
+</div>
+
 
       {/* Colonne texte */}
       <div className="w-full md:w-1/2 space-y-6">

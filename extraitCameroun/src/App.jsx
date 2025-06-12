@@ -21,6 +21,13 @@ import FloatingCart from './components/FloatingCart';
 import { useCartStore } from './store/CartStore';
 import FragranceQuizStep2Homme from './FragranceQuizStep2Homme'; // Import pour le choix par parfum homme
 import PersonalizedCandles from './PersonalizedCandles'; // Import pour les bougies personnalisées
+import Contact from './Contact';
+import BestSellers from './BestSellers';
+import Notifications from './Notifications';
+import Register  from './Register';
+import Connexion from './Connexion';
+import ForgotPassword from './ForgotPassword';
+import FavoritesPage from './FavoritesPage';
 
 export default function App() {
 
@@ -57,6 +64,13 @@ export default function App() {
           <Route path="/services/ensembles-cadeaux" element={<SpecialGiftSet />} />
           <Route path="/services/senteurs-personnalisées" element={<PersonalizedFragrance />} />
           <Route path="/services/bougies-personnalisées" element={<PersonalizedCandles />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/best-sellers" element={<BestSellers />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/register" element={<Register />} />
+          <Route path='/login' element={<Connexion />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path="/favoris" element={<FavoritesPage />} />
           </Routes>
 
           {/* Panier flottant global */}  

@@ -7,15 +7,17 @@ import menuIcon from './assets/icons/menu.svg';
 import closeIcon from './assets/icons/close.svg';
 import logo from './assets/icons/logo.svg';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCartStore } from './store/CartStore';
 import {FaSearch} from 'react-icons/fa';
 import FloatingCart from "./components/FloatingCart";
+import Notifications from './Notifications'; // Assurez-vous que ce chemin est correct
 
 
 
 export default function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
     const toggleCart = useCartStore((state) => state.toggleCart);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -81,9 +83,15 @@ export default function Header() {
             <div key={i} className="group relative cursor-pointer">
               <div className="flex items-center gap-1 hover:text-[#d4af37] transition-colors">
                 {item.link ? (
-                  <Link to={item.link} className="hover:text-[#d4af37] transition-colors">
-                    {item.label}
-                  </Link>
+                  <Link
+  to={item.link}
+  className={`transition-colors ${
+    location.pathname === item.link ? 'text-yellow-500 bg-white' : 'hover:text-yellow-500'
+  }`}
+>
+  {item.label}
+</Link>
+
                 ) : (
                   <span>{item.label}</span>
                 )}
@@ -124,6 +132,7 @@ export default function Header() {
   />
 </div>
 
+           <Notifications />
 
           <img src={userIcon} alt="User" className="w-5 h-5 cursor-pointer" onClick={() => navigate('/login')} />
           {/* <img src={cartIcon} alt="Cart" className="w-5 h-5 cursor-pointer" onClick={() => toggleCart()} /> */}

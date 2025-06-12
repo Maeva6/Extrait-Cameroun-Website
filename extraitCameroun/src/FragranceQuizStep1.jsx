@@ -15,9 +15,13 @@ export default function FragranceQuizStep1() {
       <Header />
       
       {/* Barre de progression */}
-      <div className="h-2 bg-gray-300 padding-top pt-24">
-        <div className="h-2 bg-yellow-500 w-1/3"></div> {/* 33% progress */}
-      </div>
+      {/* < className="h-2 bg-gray-300 padding-top pt-24">
+        <div className="h-2 bg-yellow-500 w-1/3"></div> {/* 33% progress 
+      </div> */}
+      
+      <div className="pt-24 bg-red-300">
+  <div className="h-4 bg-yellow-500 w-1/3"></div>
+</div>
 
       <div className="flex-grow flex flex-col items-center justify-center p-6 bg-gray-100">
         <h1 className="text-2xl md:text-3xl font-semibold mb-4 text-center">Commencer le Quiz ?</h1>

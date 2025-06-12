@@ -1,6 +1,6 @@
 // components/FloatingCart.jsx
 import { useCart } from "../contexts/CartContext";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CartIcon from "../assets/icons/cart.svg";
 
@@ -13,6 +13,22 @@ export default function FloatingCart({ fromHeader = false }) {
   } = useCart();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const cartRef = useRef(null); //détection des clics hors du panier
+
+ //  Fermer si clic à l'extérieur
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    } 
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   const total = cartItems.reduce((sum, item) => {
     const price = parseInt(item.price.replace(/\D/g, ""));
@@ -22,7 +38,8 @@ export default function FloatingCart({ fromHeader = false }) {
   const [animateBadge, setAnimateBadge] = useState(false);
 
   return (
-    <div className={`relative ${fromHeader ? "ml-4" : "fixed top-20 right-4 z-50 font-montserrat md:top-20 md:right-4 top-4 right-2"}`}>
+    <div className={`relative ${fromHeader ? "ml-4" : "fixed top-20 right-4 z-50 font-montserrat md:top-20 md:right-4 top-4 right-2"}`}
+      ref={cartRef}>
       <button
         onClick={() => setOpen(!open)}
         //className={`p-0`} // Retrait du cercle gris

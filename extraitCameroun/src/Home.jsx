@@ -41,7 +41,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-montserrat min-h-screen pt-24 flex flex-col justify-between">
+    <div className="relative font-montserrat min-h-screen pt-24 flex flex-col justify-between">
       <Header />
 
       {/* Hero Section */}
@@ -155,9 +155,9 @@ export default function Home() {
 
        <section className="relative w-full h-[500px] overflow-hidden my-12">
       <img
-        src={promoImages}
+        src={promoImages[0]}
         alt="Promo"
-        className="w-full h- object-cover"
+        className="w-full h-full object-cover"
       />
 
       {/* Contenu superposé */}
@@ -167,7 +167,7 @@ export default function Home() {
           Rejoignez notre univers parfumé dès maintenant.
         </p>
         <button
-          onClick={() => navigate("/inscription")}
+          onClick={() => navigate("/register")}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded text-lg"
         >
           S'inscrire
