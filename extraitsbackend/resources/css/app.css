@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@source "../views";
+
+body {
+  overflow-x: hidden;
+}

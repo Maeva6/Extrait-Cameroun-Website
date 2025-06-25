@@ -28,6 +28,9 @@ import Register  from './Register';
 import Connexion from './Connexion';
 import ForgotPassword from './ForgotPassword';
 import FavoritesPage from './FavoritesPage';
+// en haut du fichier App.jsx
+import PhoneAuth from './components/PhoneAuth';
+
 
 export default function App() {
 
@@ -71,6 +74,8 @@ export default function App() {
           <Route path='/login' element={<Connexion />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path="/favoris" element={<FavoritesPage />} />
+          <Route path="/auth/phone" element={<PhoneAuth />} />
+
           </Routes>
 
           {/* Panier flottant global */}  
