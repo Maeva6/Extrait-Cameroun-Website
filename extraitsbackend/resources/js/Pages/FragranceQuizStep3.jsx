@@ -101,6 +101,12 @@ export default function FragranceQuizStep3() {
                   <p className="text-gray-700 text-sm">{recommendedProduct.descriptionProduit}</p>
                   <p className="text-yellow-600">{recommendedProduct.modeUtilisation}</p>
                   <p className="text-sm text-gray-700">{recommendedProduct.particularite}</p>
+                  {recommendedProduct.matchScore === 0 && (
+  <p className="text-sm text-yellow-800 bg-yellow-100 px-3 py-2 rounded mt-2">
+    Nous n'avons pas trouvé exactement ce que vous cherchez, mais ce parfum pourrait vous plaire…
+  </p>
+)}
+
                   <p className="mt-2 text-gray-700 text-sm font-medium">
                     Ingrédients clés : {(recommendedProduct.ingredients || []).map(i => i.nomIngredient).join(', ')}
                   </p>

@@ -49,8 +49,13 @@ export default function FragranceStepQuizSenteurs() {
 //   .map((senteur) => senteur.name);
 
 // localStorage.setItem("senteurs", JSON.stringify(selectedSenteurs));
+const selectedSenteurs = ingredients
+  .filter((senteur) => selected.includes(senteur.id))
+  .map((senteur) => senteur.name);
 
-      localStorage.setItem("senteurs", JSON.stringify(['ambre','patchouli']));
+localStorage.setItem("senteurs", JSON.stringify(selectedSenteurs));
+
+      //localStorage.setItem("senteurs", JSON.stringify(selected));
       router.visit('/quiz/fragrance-result');
     }
   };

@@ -21,6 +21,14 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'resources/js'),
     },
   },
+  //  build: {
+  //       rollupOptions: {
+  //           input: {
+  //               main: 'resources/js/app-client.jsx',
+  //               admin: 'resources/js/app-admin.jsx',
+  //           },
+  //       },
+  //   },
 });
 // import { defineConfig } from 'vite';
 // import laravel from 'laravel-vite-plugin';

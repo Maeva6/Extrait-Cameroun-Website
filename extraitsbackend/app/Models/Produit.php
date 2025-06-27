@@ -11,7 +11,10 @@ class Produit extends Model
 
     //protected $primaryKey = 'idProduit';
     protected $table = 'produit';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
     protected $fillable = [
+        'categorie_id',
         'nomProduit',
         'categorie',
         'sexeCible',
@@ -37,4 +40,11 @@ class Produit extends Model
 {
     return $this->belongsTo(Categorie::class, 'categorie_id');
 }
+public function commandes()
+{
+    return $this->belongsToMany(Commandes::class, 'commande_produit')
+                ->withPivot('quantite')
+                ->withTimestamps();
+}
+
 }

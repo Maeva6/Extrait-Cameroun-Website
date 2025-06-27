@@ -6,6 +6,8 @@ use App\Models\Produit;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+
 
 class ProduitController extends Controller
 {
@@ -41,19 +43,45 @@ class ProduitController extends Controller
     public function show($id)
     {
         try {
-            $produit = Produit::with('categorie')->find($id);
+            // $produit = Produit::with('categorie')->find($id);
 
-            if (!$produit) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Produit non trouvé'
-                ], 404);
-            }
+            // if (!$produit) {
+            //     return response()->json([
+            //         'success' => false,
+            //         'message' => 'Produit non trouvé'
+            //     ], 404);
+            // }
 
-            return response()->json([
-                'success' => true,
-                'data' => $produit
-            ]);
+            // return response()->json([
+            //     'success' => true,
+            //     'data' => $produit
+            // ]);
+             $produit = Produit::with(['categorie', 'ingredients'])
+            ->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $produit->id,
+                'nomProduit' => $produit->nomProduit,
+                'categorie' => $produit->categorie->name,
+                'sexeCible' => $produit->sexeCible,
+                'familleOlfactive' => $produit->familleOlfactive,
+                'quantiteProduit' => $produit->quantiteProduit,
+                'quantiteAlerte' => $produit->quantiteAlerte,
+                'contenanceProduit' => $produit->contenanceProduit,
+                'senteur' => $produit->senteur,
+                'prixProduit' => $produit->prixProduit,
+                'descriptionProduit' => $produit->descriptionProduit,
+                'modeUtilisation' => $produit->modeUtilisation,
+                'particularite' => $produit->particularite,
+                'personnalite' => $produit->personnalite,
+                'imagePrincipale' => $produit->imagePrincipale,
+                'estDisponible' => $produit->estDisponible ? "Disponible" : "Indisponible",
+                'created_at' => $produit->created_at->format('d/m/Y'),
+                'ingredients' => $produit->ingredients // Assurez-vous que la relation est définie dans le modèle Produit
+            ]
+        ]);
         } catch (\Exception $e) {
             Log::error('Erreur lors de la récupération du produit: ' . $e->getMessage());
             return response()->json([
@@ -189,4 +217,19 @@ class ProduitController extends Controller
             ], 500);
         }
     }
+
+    public function parfumsDeCorps()
+{
+    // On récupère tous les produits de type "parfum de corps"
+    $produits = \App\Models\Produit::whereHas('categorie', function ($query) {
+        $query->where('name', 'Parfum de corps');
+    })
+    ->with('categorie:id,name') // optionnel : charge la catégorie
+    ->get();
+
+    return Inertia::render('BodyPerfume', [
+        'products' => $produits,
+    ]);
+}
+
 }

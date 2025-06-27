@@ -33,24 +33,24 @@ class IngredientController extends Controller
         return response()->json(['message' => 'Ingredient created successfully'], 201);
     }
 
-    // public function reapprovisionner(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'quantiteAjoutee' => 'required|integer|min:1',
-    //     ]);
+    public function reapprovisionner(Request $request, $id)
+    {
+        $request->validate([
+            'quantiteAjoutee' => 'required|integer|min:1',
+        ]);
 
-    //     $ingredient = Ingredient::findOrFail($id);
-    //     $ingredient->stockActuel += $request->quantiteAjoutee;
-    //     $ingredient->save();
+        $ingredient = Ingredient::findOrFail($id);
+        $ingredient->stockActuel += $request->quantiteAjoutee;
+        $ingredient->save();
 
-    //     Reapprovisionnement::create([
-    //         'ingredient_id' => $ingredient->id,
-    //         'quantite_ajoutee' => $request->quantiteAjoutee,
-    //         'date_reapprovisionnement' => now(),
-    //     ]);
+        Reapprovisionnement::create([
+            'ingredient_id' => $ingredient->id,
+            'quantite_ajoutee' => $request->quantiteAjoutee,
+            'date_reapprovisionnement' => now(),
+        ]);
 
-    //     return response()->json(['success' => true, 'message' => 'Stock mis à jour avec succès']);
-    // }
+        return response()->json(['success' => true, 'message' => 'Stock mis à jour avec succès']);
+    }
     public function list()
 {
     return response()->json(
@@ -66,4 +66,16 @@ class IngredientController extends Controller
             })
     );
 }
+
+    public function show($id)
+{
+    $ingredient = Ingredient::find($id);
+    
+    if (!$ingredient) {
+        return response()->json(['message' => 'Ingredient not found'], 404);
+    }
+    
+    return response()->json($ingredient);
+}
+
 } 

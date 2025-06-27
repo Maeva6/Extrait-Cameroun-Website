@@ -9,6 +9,8 @@ import femmeImg from './Auth/assets/images/femme.jpg';
 
 export default function FragranceQuizStep1() {
   // const navigate = useNavigate(); 
+    localStorage.removeItem('selectedPersonnaliteId');
+localStorage.removeItem('senteurs');
 
   return (
     <div className="min-h-screen flex flex-col">

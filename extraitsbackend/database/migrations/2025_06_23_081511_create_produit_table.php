@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -66,4 +66,20 @@ return new class extends Migration {
     {
         Schema::dropIfExists('produit');
   }
-};
+  public function show($id)
+{
+    $produit = Produit::with('categorie')->find($id);
+    
+    if (!$produit) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Produit non trouvé'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $produit
+    ]);
+}
+}; 

@@ -1,4 +1,4 @@
-FavoritesContext.js
+// FavoritesContext.js
 import { createContext, useContext, useState } from "react";
 
 const FavoritesContext = createContext();

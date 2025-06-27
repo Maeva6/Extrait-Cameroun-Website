@@ -10,31 +10,73 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
+
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): Response
-    {
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
+    // public function create(): Response
+    // {
+    //     return Inertia::render('Auth/Login', [
+    //         'canResetPassword' => Route::has('password.request'),
+    //         'status' => session('status'),
+    //     ]);
+    // }
+    public function create(): Response|RedirectResponse
+{
+    if (Auth::check()) {
+        $user = Auth::user();
+
+        if (in_array($user->role, ['superadmin', 'employe'])) {
+            return redirect('/dashboard-admin');
+        }
+
+        return redirect('/dashboard');
     }
+
+    return Inertia::render('Auth/Login', [
+        'canResetPassword' => Route::has('password.request'),
+        'status' => session('status'),
+    ]);
+}
 
     /**
      * Handle an incoming authentication request.
      */
+    // public function store(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     //return redirect()->intended(route('dashboard', absolute: false));
+    //      $user = Auth::user();
+    //     return redirect()->route('dashboard'); // client ou visiteur
+    
+    // }
     public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+{
+    $request->authenticate();
 
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+    $user = Auth::user();
+    
+    Log::info('Role utilisateur connecté : ' . $user->role); // ✅
+
+    if (in_array($user->role, ['superadmin', 'employe'])) {
+        return redirect()->intended('/dashboard-admin'); // Vers /dashboard-admin
     }
+
+    // return redirect()->route('dashboard'); // Pour les clients
+     return redirect()->intended('/dashboard');
+
+}
+
+
 
     /**
      * Destroy an authenticated session.

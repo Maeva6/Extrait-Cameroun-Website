@@ -81,7 +81,7 @@ export default function FragranceQuizStep2() {
     const selected = ingredients.find(i => i.id === selectedId);
     if (selected) {
       // localStorage.setItem('selectedPersonnaliteId', selected.name); // 🔁 le nom, pas l'id
-      localStorage.setItem('selectedPersonnaliteId', 'Romantique');
+      localStorage.setItem('selectedPersonnaliteId', selected.id); // 🟡 On stocke l'ID
       router.visit('/quiz/senteurs');
     }
   }

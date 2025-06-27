@@ -15,6 +15,13 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
              \App\Http\Middleware\VerifyCsrfToken::class, // ✅ Ici
             \App\Http\Middleware\EnsureUserIsAuthenticated::class,
+
         ],
     ];
+    protected $routeMiddleware = [
+    'auth' => \App\Http\Middleware\Authenticate::class,
+    'role' => \App\Http\Middleware\CheckRole::class,
+    // ... les autres middlewares de route
+];
+
 }

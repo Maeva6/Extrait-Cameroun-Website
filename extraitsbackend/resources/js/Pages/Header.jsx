@@ -17,9 +17,10 @@ export default function Header() {
   const toggleCart = useCartStore((state) => state.toggleCart);
 
   const menuItems = [
-    { label: 'Home', link: '/Home' },
+    { label: 'Home', link: '/dashboard' },
     { label: 'Senteurs d\'ambiance', link: '/famille/parfums-dambiance' },
-    { label: "Senteurs corporelles", link: '/famille/parfums-de-corps' },
+    // { label: "Senteurs corporelles", link: '/famille/parfums-de-corps' },
+    { label: "Senteurs corporelles", link: route('body.perfume') },
     { label: 'Cosmétiques', link: '/famille/cosmetiques' },
     { label: 'Accessoires', link: '/famille/accessoires' },
     { label: 'Services', link: '/services/gift-set' },

@@ -99,7 +99,7 @@ export default function FragranceQuizStep2() {
               key={ingredient.id}
               onClick={() => handleSelect(ingredient.id)}
               className={`cursor-pointer border rounded-xl p-4 text-center bg-white shadow-md transition ${
-                selectedId === ingredient.id
+                selectedId === ingredient.id 
                   ? 'border-yellow-500 bg-yellow-300'
                   : 'border-gray-300'
               }`}

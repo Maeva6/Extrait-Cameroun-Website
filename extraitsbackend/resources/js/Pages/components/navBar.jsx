@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Home, Package, ShoppingCart, Users, User, History, FileText, Settings } from 'lucide-react';
+import {  Link } from '@inertiajs/react';
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: <Home size={18} /> },
@@ -11,7 +12,7 @@ const menuItems = [
   { id: 'rapports', label: 'Rapports', icon: <FileText size={18} /> },
   { id: 'parametres', label: 'Parametres', icon: <Settings size={18} /> },
 ];
-
+<Link href={route('admin.dashboard')} className="...">Dashboard</Link>
 export default function Navbar() {
   const [active, setActive] = useState('dashboard');
 

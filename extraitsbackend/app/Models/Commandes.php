@@ -23,6 +23,8 @@ class Commandes extends Model
         'commentaire',
         'origineCommande',
         'idEmploye',
+        'is_invite',
+        'nom_client'
     ];
 
     public $timestamps = true;
@@ -38,4 +40,16 @@ class Commandes extends Model
     {
         return $this->belongsTo(User::class, 'idEmploye');
     }
+    public function isInvite()
+{
+    return is_null($this->user_id);
+}
+
+public function produits()
+{
+    return $this->belongsToMany(Produit::class, 'commande_produit')
+                ->withPivot('quantite')
+                ->withTimestamps();
+}
+
 }

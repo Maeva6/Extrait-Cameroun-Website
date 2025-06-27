@@ -123,7 +123,8 @@ export default function Dashboard() {
             Vous êtes indisponible ? Nos parfums viennent à vous.<br />
             Faites-vous livrer dès aujourd’hui.
           </p>
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded"
+            onClick={() => router.visit("/famille/parfums-de-corps")}>
             Commander maintenant
           </button>
         </div>
