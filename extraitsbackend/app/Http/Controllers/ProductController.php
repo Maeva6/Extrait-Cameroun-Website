@@ -9,35 +9,78 @@ use Inertia\Inertia;
 class ProductController extends Controller
 {
     public function bodyPerfume()
-    {
-        // On récupère tous les produits de la catégorie "Parfum de corps"
-        $produits = Produit::whereHas('categorie', function ($query) {
-            $query->where('name', 'Parfum de corps');
-        })->with(['categorie', 'ingredients'])->get();
+    
+{
+    // On récupère tous les produits dont la senteur contient "corporelle"
+    $produits = Produit::with(['categorie', 'ingredients'])
+        ->whereRaw('LOWER(senteur) LIKE ?', ['%corporelle%']) // insensible à la casse
+        ->get();
 
-        $produitsTransformes = $produits->map(function ($produit) {
-            return [
-                'id' => $produit->id,
-                'nomProduit' => $produit->nomProduit,
-                'prixProduit' => $produit->prixProduit,
-                'contenanceProduit' => $produit->contenanceProduit,
-                'descriptionProduit' => $produit->descriptionProduit,
-                'categorie' => ['name' => $produit->categorie->name ?? 'Inconnue'],
-                'imagePrincipale' => $produit->imagePrincipale,
-                'ingredients' => $produit->ingredients->map(function ($ing) {
-                    return [
-                        'id' => $ing->id,
-                        'nomIngredient' => $ing->nomIngredient,
-                        'imageIngredient' => $ing->imageIngredient,
-                    ];
-                }),
-            ];
-        });
+    $produitsTransformes = $produits->map(function ($produit) {
+        return [
+            'id' => $produit->id,
+            'nomProduit' => $produit->nomProduit,
+            'prixProduit' => $produit->prixProduit,
+            'contenanceProduit' => $produit->contenanceProduit,
+            'descriptionProduit' => $produit->descriptionProduit,
+            'modeUtilisation' => $produit->modeUtilisation,
+            'particularite' => $produit->particularite,
+            'categorie' => ['name' => $produit->categorie->name ?? 'Inconnue'],
+            'imagePrincipale' => $produit->imagePrincipale,
+            'senteur' => $produit->senteur,
+            'estDisponible' => $produit->quantiteProduit > 0 && $produit->estDisponible,
+                'limited' => $produit->quantiteProduit < 10 && $produit->quantiteProduit > 0,
+            'ingredients' => $produit->ingredients->map(function ($ing) {
+                return [
+                    'id' => $ing->id,
+                    'nomIngredient' => $ing->nomIngredient,
+                    'imageIngredient' => $ing->photo,
+                ];
+            }),
+        ];
+    });
 
-        return Inertia::render('BodyPerfume', [
-            'products' => $produitsTransformes
-        ]);
-    }
+    return Inertia::render('BodyPerfume', [
+        'products' => $produitsTransformes,
+    ]);
+}
+
+public function homeFragrance()
+    
+{
+    // On récupère tous les produits dont la senteur contient "ambiance"
+    $produits = Produit::with(['categorie', 'ingredients'])
+        ->whereRaw('LOWER(senteur) LIKE ?', ['%ambiance%']) // insensible à la casse
+        ->get();
+
+    $produitsTransformes = $produits->map(function ($produit) {
+        return [
+            'id' => $produit->id,
+            'nomProduit' => $produit->nomProduit,
+            'prixProduit' => $produit->prixProduit,
+            'contenanceProduit' => $produit->contenanceProduit,
+            'descriptionProduit' => $produit->descriptionProduit,
+            'modeUtilisation' => $produit->modeUtilisation,
+            'particularite' => $produit->particularite,
+            'categorie' => ['name' => $produit->categorie->name ?? 'Inconnue'],
+            'imagePrincipale' => $produit->imagePrincipale,
+            'senteur' => $produit->senteur,
+            'estDisponible' => $produit->quantiteProduit > 0 && $produit->estDisponible,
+                'limited' => $produit->quantiteProduit < 10 && $produit->quantiteProduit > 0,
+            'ingredients' => $produit->ingredients->map(function ($ing) {
+                return [
+                    'id' => $ing->id,
+                    'nomIngredient' => $ing->nomIngredient,
+                    'imageIngredient' => $ing->photo,
+                ];
+            }),
+        ];
+    });
+
+    return Inertia::render('HomeFragrance', [
+        'products' => $produitsTransformes,
+    ]);
+}
 
     public function show($id)
     {
@@ -50,13 +93,15 @@ class ProductController extends Controller
                 'prixProduit' => $produit->prixProduit,
                 'contenanceProduit' => $produit->contenanceProduit,
                 'descriptionProduit' => $produit->descriptionProduit,
+                'modeUtilisation' => $produit->modeUtilisation,
+                'particularite' => $produit->particularite,
                 'imagePrincipale' => $produit->imagePrincipale,
                 'categorie' => ['name' => $produit->categorie->name ?? 'Inconnue'],
                 'ingredients' => $produit->ingredients->map(function ($ing) {
                     return [
                         'id' => $ing->id,
                         'nomIngredient' => $ing->nomIngredient,
-                        'imageIngredient' => $ing->imageIngredient,
+                        'imageIngredient' => $ing->photo,
                     ];
                 }),
             ]

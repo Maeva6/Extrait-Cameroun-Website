@@ -7,9 +7,14 @@ import ProductCard from "./ProductCard";
 
 export default function BodyPerfume(props) {
   console.log("Produits reçus :", props.products);
+  // console.log("🧪 Senteurs présentes :", allProducts.map(p => p.senteur));
   const [selectedSizes, setSelectedSizes] = useState({});
   const [categoryPages, setCategoryPages] = useState({});
-  const products = props.products || []; // Récupération des produits depuis les props
+  // const products = props.products || []; // Récupération des produits depuis les props
+  const allProducts = props.products || [];
+  const products = allProducts.filter(p => p.senteur?.toLowerCase() === "corporelle");
+  console.log("🧪 Senteurs présentes :", allProducts.map(p => p.senteur));
+  
 
   const itemsPerPage = 6;
 
@@ -262,8 +267,10 @@ export default function BodyPerfume(props) {
   //   },
   // ];
 
-  const categories = [...new Set(products.map((p) => p.category))];
-  const sizes = [...new Set(products.map((p) => p.size))];
+  // const categories = [...new Set(products.map((p) => p.category))];
+  const categories = [...new Set(products.map((p) => p.categorie?.name))].filter(Boolean);
+
+  const sizes = [...new Set(products.map((p) => p.contenanceProduit))];
 
   const handlePageChange = (category, direction, totalPages) => {
     setCategoryPages((prev) => {
@@ -303,14 +310,15 @@ const stopDrag = () => {
 
   return (
     <>
-     <div className="min-h-screen flex flex-col"></div>
+     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="font-montserrat font-bold pt-28 px-6 py-4 bg-gray-50">
         {categories.map((category) => {
           const selectedSize = selectedSizes[category] || "";
-const filteredByCategory = products.filter((p) => p.category === category);
+// const filteredByCategory = products.filter((p) => p.category === category);
+const filteredByCategory = products.filter((p) => p.categorie?.name === category);
 const filtered = filteredByCategory.filter(
-  (p) => !selectedSize || p.size === selectedSize
+  (p) => !selectedSize || p.contenanceProduit === selectedSize
 );
 
 
@@ -342,7 +350,7 @@ const filtered = filteredByCategory.filter(
   className="border border-gray-300 rounded px-3 py-1 text-sm"
 >
   <option value="">Toutes</option>
-  {[...new Set(filteredByCategory.map((p) => p.size))].map((size) => (
+  {[...new Set(filteredByCategory.map((p) => p.contenanceProduit))].map((size) => (
 
     <option key={size} value={size}>
       {size}
@@ -405,6 +413,7 @@ const filtered = filteredByCategory.filter(
             </div>
           );
         })}
+      </div>
       </div>
       <Footer />
     </>

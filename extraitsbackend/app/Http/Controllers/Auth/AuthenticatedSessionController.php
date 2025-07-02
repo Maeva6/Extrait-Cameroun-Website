@@ -68,11 +68,12 @@ class AuthenticatedSessionController extends Controller
     Log::info('Role utilisateur connecté : ' . $user->role); // ✅
 
     if (in_array($user->role, ['superadmin', 'employe'])) {
-        return redirect()->intended('/dashboard-admin'); // Vers /dashboard-admin
+        return redirect('/dashboard-admin');
+; // Vers /dashboard-admin
     }
 
-    // return redirect()->route('dashboard'); // Pour les clients
-     return redirect()->intended('/dashboard');
+    return redirect()->route('/dashboard'); // Pour les clients
+    //  return redirect()->intended('/dashboard');
 
 }
 
@@ -92,3 +93,62 @@ class AuthenticatedSessionController extends Controller
         return redirect('/');
     }
 }
+
+
+
+// namespace App\Http\Controllers\Auth;
+
+// use App\Http\Controllers\Controller;
+// use App\Http\Requests\Auth\LoginRequest;
+// use Illuminate\Http\RedirectResponse;
+// use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Route;
+// use Inertia\Inertia;
+// use Inertia\Response;
+// use Illuminate\Support\Facades\Log;
+
+// class AuthenticatedSessionController extends Controller
+// {
+//     public function create(): Response|RedirectResponse
+//     {
+//         if (Auth::check()) {
+//             $user = Auth::user();
+
+//             return match ($user->role) {
+//                 'superadmin', 'employe', 'administrateur' => redirect('/dashboard-admin'),
+//                 default => redirect('/dashboard'),
+//             };
+//         }
+
+//         return Inertia::render('Auth/Login', [
+//             'canResetPassword' => Route::has('password.request'),
+//             'status' => session('status'),
+//         ]);
+//     }
+
+//     public function store(LoginRequest $request): RedirectResponse
+//     {
+//         $request->authenticate();
+//         $request->session()->regenerate();
+
+//         $user = Auth::user();
+
+//         Log::info('Role utilisateur connecté : ' . $user->role);
+
+//         return match ($user->role) {
+//             'superadmin', 'employe', 'administrateur' => redirect('/dashboard-admin'),
+//             default => redirect('/dashboard'),
+//         };
+//     }
+
+//     public function destroy(Request $request): RedirectResponse
+//     {
+//         Auth::guard('web')->logout();
+
+//         $request->session()->invalidate();
+//         $request->session()->regenerateToken();
+
+//         return redirect('/');
+//     }
+// }

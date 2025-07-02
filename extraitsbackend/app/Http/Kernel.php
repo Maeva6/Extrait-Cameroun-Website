@@ -15,6 +15,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
              \App\Http\Middleware\VerifyCsrfToken::class, // ✅ Ici
             \App\Http\Middleware\EnsureUserIsAuthenticated::class,
+            \Inertia\Middleware::class,
+            \App\Http\Middleware\HandleInertiaRequests::class,
 
         ],
     ];

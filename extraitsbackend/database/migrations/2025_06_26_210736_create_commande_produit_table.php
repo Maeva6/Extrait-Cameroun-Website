@@ -13,14 +13,19 @@ return new class extends Migration
     {
        Schema::create('commande_produit', function (Blueprint $table) {
     $table->id();
-    $table->foreignId('idCommande')->constrained('commandes')->onDelete('cascade');
-    $table->foreignId('produit_id')->constrained('produit')->onDelete('cascade');
+    
+    // On crée manuellement les colonnes avec noms personnalisés
+    $table->unsignedBigInteger('commande_id');
+    $table->unsignedBigInteger('produit_id');
+    
     $table->integer('quantite');
     $table->timestamps();
 
-     $table->foreign('idCommande')->references('idCommande')->on('commandes')->onDelete('cascade');
+    // Clés étrangères explicites
+    $table->foreign('commande_id')->references('idCommande')->on('commandes')->onDelete('cascade');
     $table->foreign('produit_id')->references('id')->on('produit')->onDelete('cascade');
 });
+
 
     }
 

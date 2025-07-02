@@ -36,6 +36,11 @@ export default function Checkout() {
       alert("Merci de remplir tous les champs obligatoires.");
       return;
     }
+    const transformedItems = cartItems.map(item => ({
+  id: item.id,
+  quantite: item.quantity // 👈 Transformation ici
+}));
+
 
     if (!paymentMethod || cartItems.length === 0) return;
     

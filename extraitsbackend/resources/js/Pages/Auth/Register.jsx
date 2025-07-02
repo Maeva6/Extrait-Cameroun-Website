@@ -1,11 +1,31 @@
-// 📁 src/Register.jsx
-import React from "react";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import React, { useState } from "react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import logo from "./assets/icons/logo.svg";
 
 export default function Register() {
-  const { props } = usePage();
-  const csrfToken = props.csrf_token;
+  const [passwordErrors, setPasswordErrors] = useState([]);
+
+  const validatePassword = (password) => {
+    const errors = [];
+
+    if (password.length < 8) {
+      errors.push("Le mot de passe doit contenir au moins 8 caractères.");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("Il doit contenir au moins une majuscule.");
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push("Il doit contenir au moins une minuscule.");
+    }
+    if (!/[0-9]/.test(password)) {
+      errors.push("Il doit contenir au moins un chiffre.");
+    }
+    if (!/[!@#$%^&*()_+\-=[\]{};':\"\\|,.<>/?]/.test(password)) {
+      errors.push("Il doit contenir au moins un caractère spécial.");
+    }
+
+    return errors;
+  };
 
   const {
     data,
@@ -18,7 +38,8 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    password_confirmation: ""
+    password_confirmation: "",
+    role: "client"
   });
 
   const handleSubmit = (e) => {
@@ -30,15 +51,29 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-yellow-100 px-4">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://i.imgur.com/p8FSpph.jpeg')" // 👈 Remplace ce lien ici
+      }}
+    >
       <Head title="Inscription" />
-      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4 text-center">
+      <div className="bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-full max-w-md space-y-4 text-center">
         <img src={logo} alt="Logo" className="h-16 mx-auto" />
         <h2 className="text-lg font-bold">Créez votre compte</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4 text-left">
-          <input type="hidden" name="_token" value={csrfToken} />
+        {Object.keys(errors).length > 0 && (
+          <div className="bg-red-100 text-red-700 p-3 rounded text-sm">
+            <ul className="list-disc list-inside">
+              {Object.values(errors).map((err, i) => (
+                <li key={i}>{err}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
           <div>
             <label className="block font-semibold mb-1" htmlFor="name">
               Nom complet
@@ -83,11 +118,21 @@ export default function Register() {
               type="password"
               id="password"
               value={data.password}
-              onChange={(e) => setData("password", e.target.value)}
+              onChange={(e) => {
+                setData("password", e.target.value);
+                setPasswordErrors(validatePassword(e.target.value));
+              }}
               className="p-2 border rounded-md w-full placeholder-yellow-500"
               placeholder="********"
               required
             />
+            {passwordErrors.length > 0 && (
+              <ul className="text-red-600 text-sm mt-1 list-disc list-inside">
+                {passwordErrors.map((err, i) => (
+                  <li key={i}>{err}</li>
+                ))}
+              </ul>
+            )}
             {errors.password && (
               <p className="text-red-600 text-sm mt-1">{errors.password}</p>
             )}

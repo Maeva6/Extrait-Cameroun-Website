@@ -13,9 +13,10 @@ class ProduitController extends Controller
 {
     public function index()
     {
+
         try {
             $produits = Produit::with('categorie:id,name')
-                ->select('id', 'nomProduit', 'categorie_id', 'quantiteProduit', 'created_at')
+                ->select('id', 'nomProduit', 'categorie_id', 'contenanceProduit', 'prixProduit' , 'imagePrincipale', 'senteur', 'quantiteProduit', 'created_at')
                 ->orderBy('created_at', 'desc')
                 ->get();
 
@@ -101,7 +102,7 @@ class ProduitController extends Controller
                 'famille_olfactive' => 'required|string|max:50',
                 'quantite' => 'required|integer|min:0',
                 'contenance' => 'required|string|max:20',
-                'senteurs' => 'sometimes|array',
+                'senteur' => 'sometimes|array',
                 'quantite_alerte' => 'required|integer|min:0',
                 'prix' => 'required|numeric|min:0.01',
                 'description' => 'nullable|string',
@@ -165,7 +166,7 @@ class ProduitController extends Controller
                 'famille_olfactive' => 'sometimes|string|max:50',
                 'quantite' => 'sometimes|integer|min:0',
                 'contenance' => 'sometimes|string|max:20',
-                'senteurs' => 'sometimes|array',
+                'senteur' => 'sometimes|array',
                 'quantite_alerte' => 'sometimes|integer|min:0',
                 'prix' => 'sometimes|numeric|min:0.01',
                 'description' => 'nullable|string',
@@ -218,18 +219,40 @@ class ProduitController extends Controller
         }
     }
 
-    public function parfumsDeCorps()
+//     public function parfumsDeCorps()
+// {
+//     // On récupère tous les produits de type "parfum de corps"
+//     $produits = \App\Models\Produit::whereHas('categorie', function ($query) {
+//         $query->where('name', 'Parfum de corps');
+//     })
+//     ->with('categorie:id,name') // optionnel : charge la catégorie
+//     ->get();
+
+//     return Inertia::render('BodyPerfume', [
+//         'products' => $produits,
+//     ]);
+// }
+public function parfumsDeCorps()
 {
-    // On récupère tous les produits de type "parfum de corps"
-    $produits = \App\Models\Produit::whereHas('categorie', function ($query) {
-        $query->where('name', 'Parfum de corps');
-    })
-    ->with('categorie:id,name') // optionnel : charge la catégorie
-    ->get();
+
+    $produits = \App\Models\Produit::with('categorie:id,name')
+        ->where('senteur', 'like', '%corporelle%')
+        ->select([
+            'id',
+            'categorie_id',
+            'nomProduit',
+            'contenanceProduit',
+            'prixProduit',
+            'descriptionProduit',
+            'imagePrincipale',
+            'senteur',
+        ])
+        ->get();
 
     return Inertia::render('BodyPerfume', [
         'products' => $produits,
     ]);
 }
+
 
 }

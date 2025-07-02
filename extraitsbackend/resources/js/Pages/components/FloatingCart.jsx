@@ -53,7 +53,7 @@ export default function FloatingCart({ fromHeader = false }) {
         <img
           src={CartIcon}
           alt="Panier"
-          className="w-5 h-5 object-contain cursor-pointer"
+          className="w-6 h-6 object-contain cursor-pointer"
           onMouseEnter={() => setAnimateBadge(true)}
         />
       </button>

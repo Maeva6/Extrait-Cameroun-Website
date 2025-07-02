@@ -19,16 +19,16 @@ export default function Footer() {
           <h5 className="font-semibold mb-2">Boutique</h5>
           <ul className="space-y-1">
             <li>
-              <Link to="/famille/parfums-de-corps" className="hover:text-[#d4af37] transition-colors">• Tous les parfums</Link>
+              <Link href="/famille/parfums-de-corps" className="hover:text-[#d4af37] transition-colors">• Tous les parfums</Link>
             </li>
             <li>
-              <Link to="/nouveautes" className="hover:text-[#d4af37] transition-colors">• Nouveautés</Link>
+              <Link href="/nouveautes" className="hover:text-[#d4af37] transition-colors">• Nouveautés</Link>
             </li>
             <li>
-              <Link to="/best-sellers" className="hover:text-[#d4af37] transition-colors">• Best-sellers</Link>
+              <Link href="/best-sellers" className="hover:text-[#d4af37] transition-colors">• Best-sellers</Link>
             </li>
             <li>
-              <Link to="/offres-speciales" className="hover:text-[#d4af37] transition-colors">• Offres spéciales</Link>
+              <Link href="/offres-speciales" className="hover:text-[#d4af37] transition-colors">• Offres spéciales</Link>
             </li>
           </ul>
         </div>
@@ -37,16 +37,16 @@ export default function Footer() {
           <h5 className="font-semibold mb-2">Aide</h5>
           <ul className="space-y-1">
             <li>
-              <Link to="/contact" className="hover:text-[#d4af37] transition-colors">• Contactez-nous</Link>
+              <Link href="/contact" className="hover:text-[#d4af37] transition-colors">• Contactez-nous</Link>
             </li>
             <li>
-              <Link to="/livraison-retours" className="hover:text-[#d4af37] transition-colors">• Livraison & Retours</Link>
+              <Link href="/livraison-retours" className="hover:text-[#d4af37] transition-colors">• Livraison & Retours</Link>
             </li>
             <li>
-              <Link to="/faq" className="hover:text-[#d4af37] transition-colors">• FAQ</Link>
+              <Link href="/faq" className="hover:text-[#d4af37] transition-colors">• FAQ</Link>
             </li>
             <li>
-              <Link to="/guide-des-parfums" className="hover:text-[#d4af37] transition-colors">• Guide des parfums</Link>
+              <Link href="/guide-des-parfums" className="hover:text-[#d4af37] transition-colors">• Guide des parfums</Link>
             </li>
           </ul>
         </div>

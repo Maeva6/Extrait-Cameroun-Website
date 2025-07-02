@@ -40,11 +40,22 @@ class Produit extends Model
 {
     return $this->belongsTo(Categorie::class, 'categorie_id');
 }
+// public function commandes()
+// {
+//     return $this->belongsToMany(Commandes::class, 'commande_produit')
+//                 ->withPivot('quantite')
+//                 ->withTimestamps();
+// }
+// app/Models/Produit.php
 public function commandes()
 {
-    return $this->belongsToMany(Commandes::class, 'commande_produit')
+    return $this->belongsToMany(Commande::class, 'commande_produit', 'produit_id', 'commande_id')
                 ->withPivot('quantite')
                 ->withTimestamps();
+}
+public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorites', 'produit_id', 'user_id')->withTimestamps();
 }
 
 }

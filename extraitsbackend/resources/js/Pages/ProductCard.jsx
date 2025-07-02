@@ -2,14 +2,15 @@ import React from "react";
 import { Link } from "@inertiajs/react";
 
 export default function ProductCard({ product }) {
+  console.log(product.ingredients)
   return (
     <div className="bg-yellow-100 rounded-lg shadow-md p-4 w-[250px] flex flex-col items-center relative">
-      {!product.available && (
+      {!product.estDisponible && (
         <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
           INDISPONIBLE
         </span>
       )}
-      {product.limited && product.available && (
+      {product.limited && product.estDisponible && (
         <span className="absolute top-2 left-2 bg-black text-white text-[10px] px-2 py-1 rounded uppercase">
           Limited Time
         </span>
@@ -29,7 +30,8 @@ export default function ProductCard({ product }) {
       <div className="flex justify-center gap-3 my-2">
         {product.ingredients?.map((ing) => (
           <div key={ing.name} className="flex flex-col items-center text-xs text-gray-600">
-            <img src={ing.photo} alt={ing.name} className="w-8 h-8 rounded-full" />
+            <img src={ing.imageIngredient} alt={ing.name} 
+  className="w-24 h-24 rounded-full border border-gray-300 shadow" />
             <span>{ing.name}</span>
           </div>
         ))}
@@ -40,7 +42,7 @@ export default function ProductCard({ product }) {
       </p>
 
       <Link
-        to={`/product/${product.id}`}
+        href={`/product/${product.id}`}
         className="mt-3 bg-black text-white text-xs font-bold py-2 px-4 rounded hover:bg-gray-800"
       >
        Voir le produit

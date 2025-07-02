@@ -11,8 +11,8 @@ export default function ProductPage() {
   const { props } = usePage();
   const product = props.product;
 
-  const { addToCart } = useCartStore((state => state.addToCart));
-  const { addToFavorites } = useFavoritesStore((state) => state.addToFavorites);
+  const  addToCart  = useCartStore((state) => state.addToCart);
+  const  addToFavorites  = useFavoritesStore((state) => state.addToFavorites);
 
   if (!product) {
     return <div className="text-center py-20 text-red-600">Produit introuvable</div>;
@@ -55,7 +55,15 @@ export default function ProductPage() {
 
             <div className="flex gap-4 flex-wrap">
               <button
-                onClick={() => addToCart(product)}
+                onClick={() => addToCart({
+  id: product.id,
+  name: product.nomProduit,
+  price: product.prixProduit?.toString() ?? "0",
+  imageUrl: product.imagePrincipale,
+  size: product.contenanceProduit,
+  quantity: 1,
+})}
+
                 className="bg-yellow-500 text-white px-4 py-2 rounded-full hover:bg-yellow-600 shadow flex items-center gap-2"
               >
                 <ShoppingCart size={20} />

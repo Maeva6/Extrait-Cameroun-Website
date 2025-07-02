@@ -65,21 +65,22 @@ export default function Header() {
             <input
               type="text"
               placeholder="Rechercher..."
+              title="Recherche"
               className="pl-10 pr-3 py-2 border rounded text-sm sm:text-base w-full"
             />
           </div>
 
-          <Notifications />
-
+          {/* <Notifications /> */}
+         
           <img
             src={userIcon}
             alt="User"
             className="w-5 h-5 cursor-pointer"
-            onClick={() => router.visit('/utilisateur')}
+            onClick={() => router.visit('/user-dashboard')}
             title="Mon compte"
           />
-
-          <FloatingCart fromHeader />
+      <FloatingCart fromHeader />
+          
         </div>
       </div>
 

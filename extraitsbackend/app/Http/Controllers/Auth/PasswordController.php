@@ -24,6 +24,8 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back();
+        // return back();
+        return redirect()->route('user.dashboard')->with('success', 'Mot de passe mis à jour.');
+
     }
 }

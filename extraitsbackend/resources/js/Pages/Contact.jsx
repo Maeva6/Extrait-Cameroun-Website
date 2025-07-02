@@ -82,7 +82,7 @@ export default function Contact() {
                 onChange={handleChange}
                 className="w-4 h-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
               />
-              <label className="text-sm text-gray-700">
+              <label className="text-sm text-gray-700 cursor-pointer">
                 S’inscrire à notre liste d’emails pour recevoir des mises à jour, promotions et plus.
               </label>
             </div>

@@ -5,6 +5,10 @@ import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import { router } from '@inertiajs/react';
+// import { route } from 'ziggy-js';
+ // ou 'ziggy' selon la config
+
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -26,9 +30,12 @@ export default function UpdatePasswordForm({ className = '' }) {
 
     const updatePassword = (e) => {
         e.preventDefault();
+        console.log(route('password.update'));
+        window.addEventListener('submit', e => console.log('Formulaire intercepté', e.target.action));
 
-        put(route('password.update'), {
+        router.put(route('password.update'),  {
             preserveScroll: true,
+             preserveState: false, // ← ajoute cette ligne
             onSuccess: () => reset(),
             onError: (errors) => {
                 if (errors.password) {

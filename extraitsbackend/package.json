@@ -25,6 +25,7 @@
     "dependencies": {
         "chart": "^0.1.2",
         "chart.js": "^4.5.0",
+        "chartjs-plugin-datalabels": "^2.2.0",
         "framer-motion": "^12.18.1",
         "lucide-react": "^0.517.0",
         "react-chartjs-2": "^5.3.0",
@@ -35,6 +36,7 @@
         "react-toastify": "^11.0.5",
         "recharts": "^3.0.0",
         "swiper": "^11.2.8",
+        "ziggy-js": "^2.5.3",
         "zustand": "^5.0.5"
     }
 }
