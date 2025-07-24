@@ -138,8 +138,8 @@ export default function FragranceQuizStep3() {
                     </button>
                   </div>
 
-                  <button onClick={() => router.visit('/famille/parfums-de-corps')}
-                    className="mt-4 text-yellow-600 underline">
+                  <button onClick={() => router.visit('/body-perfume')}
+                    className="mt-4 text-yellow-600 underline cursor-pointer hover:text-yellow-800">
                     Découvrir d'autres parfums →
                   </button>
                 </div>

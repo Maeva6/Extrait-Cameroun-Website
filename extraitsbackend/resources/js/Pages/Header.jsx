@@ -19,8 +19,8 @@ export default function Header() {
   const menuItems = [
     { label: 'Home', link: '/dashboard' },
     { label: 'Senteurs d\'ambiance', link: '/famille/parfums-dambiance' },
-    // { label: "Senteurs corporelles", link: '/famille/parfums-de-corps' },
-    { label: "Senteurs corporelles", link: route('body.perfume') },
+    { label: "Senteurs corporelles", link: '/body-perfume' },
+    // { label: "Senteurs corporelles", link: route('body.perfume') },
     { label: 'Cosmétiques', link: '/famille/cosmetiques' },
     { label: 'Accessoires', link: '/famille/accessoires' },
     { label: 'Services', link: '/services/gift-set' },
@@ -28,7 +28,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="font-montserrat font-bold px-4 py-4 shadow-md bg-white fixed top-0 left-0 w-full z-50">
+    <header className="font-montserrat font-bold px-5 py-5 shadow-md bg-white fixed top-0 left-0 w-full z-50">
       <div className="flex items-center justify-between gap-4">
         {/* Menu hamburger (mobile) */}
         <div className="md:hidden">

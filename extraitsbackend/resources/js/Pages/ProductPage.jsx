@@ -70,10 +70,17 @@ export default function ProductPage() {
                 Ajouter au panier
               </button>
               <button
+                // onClick={() => {
+                //   addToFavorites(product);
+                //   setTimeout(() => router.visit("/mes-favoris"), 100);
+                // }}
                 onClick={() => {
-                  addToFavorites(product);
-                  setTimeout(() => router.visit("/mes-favoris"), 100);
-                }}
+  router.post('/favorites', { produit_id: product.id }, {
+    onSuccess: () => router.visit('/mes-favoris'),
+    onError: () => alert("Erreur lors de l'ajout aux favoris"),
+  });
+}}
+
                 className="border border-red-400 text-red-500 px-4 py-2 rounded-full hover:bg-red-50 shadow flex items-center gap-2"
               >
                 <Heart size={20} fill="currentColor" />

@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import {
     User, ChevronDown, ChevronUp, Lock, Unlock,
     CreditCard, Users, Package, FileText, Settings, AlertCircle, UserCircle, Search, Home, ShoppingCart, History,
-    SprayCan, Truck, Sigma, Bell
+    SprayCan, Truck, Sigma, Bell, PackagePlus
+    
   } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -23,6 +24,7 @@ const availablePages = [
     { id: 'Ingredient', label: 'Ingredient', icon: <SprayCan size={16} /> },
     { id: 'Fournisseur', label: 'Fournisseur', icon: <Truck size={16} /> },
     { id: 'Formule', label: 'Formule', icon: <Sigma size={16} /> },
+    { id: 'reapprovisionnement', label: 'Reapprovisionnement', icon: <PackagePlus size={16} /> },
   ];
   
 export default function accesUtilisateur() {

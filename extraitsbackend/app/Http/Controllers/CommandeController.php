@@ -63,12 +63,12 @@ class CommandeController extends Controller
         foreach ($request->items as $item) {
             $produit = Produit::find($item['id']);
 
-            if ($produit && $produit->quantiteProduit >= $item['quantite']) {
+            if ($produit && $produit->quantiteProduit >= $item['quantity']) {
                 $commande->produits()->attach($produit->id, [
-                    'quantite' => $item['quantite']
+                    'quantite' => $item['quantity']
                 ]);
 
-                $produit->decrement('quantiteProduit', $item['quantite']);
+                $produit->decrement('quantiteProduit', $item['quantity']);
             } else {
                 return response()->json([
                     'error' => "Stock insuffisant pour le produit : {$produit->nomProduit}"
@@ -77,7 +77,10 @@ class CommandeController extends Controller
         }
          \Log::info('✅ Commande enregistrée avec ID ' . $commande->id);
 
-        return response()->json(['message' => 'Commande enregistrée','commande_id' => $commande->id]);
+        // return response()->json(['message' => 'Commande enregistrée','commande_id' => $commande->id]);
+        return redirect()->back()->with('success', 'Commande enregistrée');
+
+            // return redirect()->route('orders.index')->with('success', 'Commande enregistrée avec succès');
         // return redirect()->route('commande.create')->with('success', 'Commande enregistrée avec succès ✅');
 
     }
@@ -126,16 +129,30 @@ class CommandeController extends Controller
 // }
 
 
-    public function index()
-    {
-        $commandes = Commande::where('idClient', auth()->id())
-            ->orderByDesc('dateCommande')
-            ->get();
+    // public function index()
+    // {
+    //     $commandes = Commande::where('idClient', auth()->id())
+    //         ->orderByDesc('dateCommande')
+    //         ->get();
 
-        return Inertia::render('User/OrdersPage', [
-            'commandes' => $commandes,
-        ]);
-    }
+    //     return Inertia::render('User/OrdersPage', [
+    //         'commandes' => $commandes,
+    //     ]);
+    // }
+    public function index()
+{
+    $commandes = Commande::with(['produits' => function ($query) {
+        $query->select('produit.id', 'nomProduit', 'imagePrincipale');
+    }])
+    ->where('idClient', auth()->id())
+    ->orderByDesc('dateCommande')
+    ->get();
+
+    return Inertia::render('User/OrdersPage', [
+        'commandes' => $commandes,
+    ]);
+}
+
 
     /*formulaire pour les commandes*/
     public function create()
@@ -200,5 +217,21 @@ public function destroy($id)
 
         return response()->json(['message' => 'Vente supprimée avec succès']);
     }
+
+    public function dashboard()
+{
+   $commandes = Commande::with('produits')
+    ->where('idClient', auth()->id())
+    ->latest()
+    ->take(3)
+    ->get();
+    //  ->pluck('produit');
+
+
+    return Inertia::render('User/UserDashboard', [
+        'auth' => ['user' => Auth::user()],
+        'orders' => $commandes,
+    ]);
+}
 
 }

@@ -63,7 +63,10 @@ localStorage.setItem("senteurs", JSON.stringify(selectedSenteurs));
   return (
     <div className="flex flex-col min-h-screen font-montserrat bg-white">
       <Header />
-
+        {/* progression */}
+      <div className="pt-20 bg-red-300">
+        <div className="h-4 bg-yellow-500 w-3/4"></div>
+      </div>
       <main className="flex-grow pt-24 px-4">
         <h2 className="text-2xl font-bold mb-3 text-center">
           🌿 Choisissez vos ingrédients préférés

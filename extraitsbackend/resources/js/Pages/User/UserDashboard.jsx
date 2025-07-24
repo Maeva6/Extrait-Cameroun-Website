@@ -24,6 +24,8 @@ console.log("auth.user =>", auth?.user);
 // }, [flash]);
   const truncate = (str, n) =>
     str.length > n ? str.substring(0, n - 1) + "…" : str;
+console.log("📦 Données commandes :", orders);
+console.log("❤️ Données favoris :", favorites);
 
   return (
     <div className="min-h-screen flex flex-col pt-24 bg-white">
@@ -57,7 +59,7 @@ console.log("auth.user =>", auth?.user);
                   alt={fav.nomProduit}
                   className="w-20 h-20 object-cover rounded-lg shadow"
                 />
-              ))}
+              ))} 
             </div>
           </motion.div>
 
@@ -72,14 +74,18 @@ console.log("auth.user =>", auth?.user);
               Historique de mes commandes
             </Link>
             <div className="flex gap-3 mt-2">
-              {orders.slice(0, 3).map((prod) => (
-                <img
-                  key={prod.id}
-                  src={prod.imagePrincipale}
-                  alt={prod.nomProduit}
-                  className="w-20 h-20 object-cover rounded-lg shadow"
-                />
-              ))}
+              {orders.flatMap((commande) =>
+  commande.produits.map((produit) => (
+    <div key={`${commande.id}-${produit.id}`} className="text-center">
+      <img
+        src={produit.imagePrincipale}
+        alt={produit.nomProduit}
+        className="w-20 h-20 object-cover rounded-lg shadow"
+      />
+      {/* <p className="text-sm mt-1">× {produit.pivot?.quantite ?? 1}</p> */}
+    </div>
+  ))
+)}
             </div>
           </motion.div>
 

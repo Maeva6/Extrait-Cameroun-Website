@@ -80,9 +80,9 @@ export default function FragranceQuizStep2() {
   return (
     <div className="font-montserrat font-bold min-h-screen flex flex-col">
       <Header />
-
+      {/* progression */}
       <div className="pt-20 bg-red-300">
-        <div className="h-4 bg-yellow-500 w-2/3"></div>
+        <div className="h-4 bg-yellow-500 w-2/4"></div>
       </div>
 
       <div className="flex-grow px-4 py-8 bg-gray-100 flex flex-col items-center">

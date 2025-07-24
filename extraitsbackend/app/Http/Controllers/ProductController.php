@@ -81,6 +81,41 @@ public function homeFragrance()
         'products' => $produitsTransformes,
     ]);
 }
+public function cosmetiques()
+{
+    $produits = Produit::with(['categorie', 'ingredients'])
+        ->whereRaw('LOWER(senteur) LIKE ?', ['%cosmetique%'])
+        ->get();
+
+    $produitsTransformes = $produits->map(function ($produit) {
+        return [
+            'id' => $produit->id,
+            'nomProduit' => $produit->nomProduit,
+            'prixProduit' => $produit->prixProduit,
+            'contenanceProduit' => $produit->contenanceProduit,
+            'descriptionProduit' => $produit->descriptionProduit,
+            'modeUtilisation' => $produit->modeUtilisation,
+            'particularite' => $produit->particularite,
+            'categorie' => ['name' => $produit->categorie->name ?? 'Inconnue'],
+            'imagePrincipale' => $produit->imagePrincipale,
+            'senteur' => $produit->senteur,
+            'estDisponible' => $produit->quantiteProduit > 0 && $produit->estDisponible,
+            'limited' => $produit->quantiteProduit < 10 && $produit->quantiteProduit > 0,
+            'ingredients' => $produit->ingredients->map(function ($ing) {
+                return [
+                    'id' => $ing->id,
+                    'nomIngredient' => $ing->nomIngredient,
+                    'imageIngredient' => $ing->photo,
+                ];
+            }),
+        ];
+    });
+
+    return Inertia::render('Cosmetiques', [
+        'products' => $produitsTransformes,
+    ]);
+}
+
 
     public function show($id)
     {

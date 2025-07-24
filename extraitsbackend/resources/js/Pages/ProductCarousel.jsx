@@ -12,7 +12,7 @@ const categories = [
     title: 'Senteurs corporelles',
     description: 'Laissez votre peau s’imprégner de fragrances envoûtantes, raffinées et conçues pour sublimer votre identité olfactive.',
     image: 'https://i.imgur.com/cKWMwMI.jpeg',
-    link: '/famille/parfums-de-corps',
+    link: '/body-perfume',
   },
   {
     title: 'Cosmétiques',

@@ -24,6 +24,8 @@ use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RapportController;
+use App\Http\Controllers\PanierController;
+use App\http\controllers\FavoriteController;
 
 // 🌐 Pages publiques
 Route::get('/', function () {
@@ -81,6 +83,10 @@ Route::middleware(['auth'])->group(function () {
     // Route::inertia('/utilisateur', 'User/UserDashboard')->name('user.dashboard');
       Route::get('/user-dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::inertia('/mes-favoris', 'FavoritesPage')->name('favorites');
+    Route::get('/mes-favoris', [FavoriteController::class, 'index'])->middleware('auth');
+
+    Route::get('/user-dashboard', [CommandeController::class, 'dashboard'])->name('user.dashboard');
+
 
     Route::get('/checkout', fn () => Inertia::render('Checkout'))->name('checkout');
     Route::post('/orders', [CommandeController::class, 'store'])->name('orders.store');
@@ -282,4 +288,17 @@ Route::get('/top-produits-vendus', [RapportController::class, 'getTopProduitsVen
 Route::get('/ventes-par-categorie-senteur', [RapportController::class, 'getVentesParCategorieSenteur']);
 
 Route::get('/details-ventes', [RapportController::class, 'getDetailsVentes']);
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/panier', [PanierController::class, 'index']);
+    Route::post('/panier/ajouter', [PanierController::class, 'ajouter']);
+    Route::delete('/panier/{produit_id}', [PanierController::class, 'supprimer']);
+    Route::delete('/panier', [PanierController::class, 'vider']);
+    
+    Route::post('/favorites', [FavoriteController::class, 'store'])->middleware('auth');
+    Route::get('/famille/cosmetiques', [ProductController::class, 'cosmetiques'])->name('cosmetiques');
+
+});
+
 require __DIR__.'/auth.php';

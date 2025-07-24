@@ -17,26 +17,42 @@ export default function FloatingCart({ fromHeader = false }) {
   const cartRef = useRef(null);
   const [animateBadge, setAnimateBadge] = useState(false);
 
+useEffect(() => {
+  function handleClickOutside(event) {
+    if (cartRef.current && !cartRef.current.contains(event.target)) {
+      useCartStore.getState().toggleCart(); // ← appel direct pour éviter dépendance
+    }
+  }
+
+  if (isCartOpen) {
+    document.addEventListener("mousedown", handleClickOutside);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+  
+}, [isCartOpen]);
+
+
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (cartRef.current && !cartRef.current.contains(event.target)) {
-        toggleCart();
-      }
-    }
+  useCartStore.getState().loadCartFromServer();
+  
+}, []);
 
-    if (isCartOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isCartOpen, toggleCart]);
-
+  // const total = cartItems.reduce((sum, item) => {
+  //   // const price = parseInt(item.price.replace(/\D/g, ""));
+  //   const price = item.price
+  // ? parseInt(item.price.toString().replace(/\D/g, ""))
+  // : 0;
+  //   return sum + price * item.quantity;
+  // }, 0);
   const total = cartItems.reduce((sum, item) => {
-    const price = parseInt(item.price.replace(/\D/g, ""));
-    return sum + price * item.quantity;
-  }, 0);
+  const price = parseFloat(item.price) || 0;
+  return sum + price * item.quantity;
+}, 0);
+
 
   const distinctCount = cartItems.length;
 
@@ -129,7 +145,11 @@ export default function FloatingCart({ fromHeader = false }) {
                 </p>
                 <button
                   className="mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-                  onClick={() => router.visit("/checkout")}
+                  onClick={() => {
+  useCartStore.getState().toggleCart(); // ferme le panier
+  router.visit("/checkout");
+}}
+
                 >
                   Commander maintenant
                 </button>

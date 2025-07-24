@@ -27,9 +27,9 @@ export default function Checkout() {
   };
 
   const total = cartItems.reduce((sum, item) => {
-    const price = parseInt(item.price.replace(/\D/g, ""));
-    return sum + price * item.quantity;
-  }, 0);
+  const price = parseFloat(item.price) || 0;
+  return sum + price * item.quantity;
+}, 0);
 
   const handleConfirm = () => {
     if (!isValid()) {
@@ -55,8 +55,13 @@ export default function Checkout() {
       `Bonjour, je viens de passer une commande sur le site.\n\n🧍 Nom : ${form.firstname} ${form.lastname}\n🏙️ Ville : ${form.city}, ${form.neighborhood}\n📞 Téléphone : ${form.phone}\n💰 Montant total : ${total.toLocaleString()} FCFA\n💳 Paiement : ${paymentMethod}`
     );
 
-    clearCart();
-    window.location.href = `https://wa.me/23792616200?text=${message}`;
+    // clearCart();
+    // window.location.href = `https://wa.me/23792616200?text=${message}`;
+    setTimeout(() => {
+  clearCart();
+  window.location.href = `https://wa.me/23792616200?text=${message}`;
+}, 100); // petit délai pour laisser Zustand mettre à jour
+
   };
 // const handleConfirm = async () => {
 //   if (!isValid()) {
@@ -180,7 +185,7 @@ export default function Checkout() {
 
         {/* 🛒 Panier */}
         <div>
-          <h2 className="text-lg font-semibold mb-2">🛒 Articles dans votre panier</h2>
+          <h2 className="text-lg font-bold mb-2">🛒 Articles dans votre panier</h2>
           <ul className="space-y-2">
             {cartItems.map((item, idx) => (
               <li
