@@ -10,7 +10,7 @@ import femmeImg from './Auth/assets/images/femme.jpg';
 export default function FragranceQuizStep1() {
   // const navigate = useNavigate(); 
     localStorage.removeItem('selectedPersonnaliteId');
-localStorage.removeItem('senteurs');
+    localStorage.removeItem('senteurs');
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -31,7 +31,9 @@ localStorage.removeItem('senteurs');
 
         <div className="flex flex-col md:flex-row gap-6 mb-8">
           <button
-            onClick={() => router.visit('/fragrance-step2-homme')}
+            onClick={() => {router.visit('/quiz/senteurs-homme')
+              localStorage.setItem('sex', 'homme');
+            }}
             className="border rounded-lg p-6 w-64 bg-white hover:shadow-lg border-yellow-400 text-center"
           >
             <img src={hommeImg} alt="Parfum Homme" className="w-40 h-40 object-cover hover:border-yellow-400 rounded-full mx-auto mb-4" />
@@ -40,7 +42,9 @@ localStorage.removeItem('senteurs');
           </button>
 
           <button
-            onClick={() => router.visit('/quiz/ingredients')}
+            onClick={() => {router.visit('/quiz/ingredients')
+               localStorage.setItem('sex', 'femme');
+            }}
             className="border rounded-lg p-6 w-64 bg-white hover:shadow-lg border-yellow-400 text-center"
           >
             <img src={femmeImg} alt="Parfum Femme" className="w-40 h-40 object-cover rounded-full mx-auto mb-4" />

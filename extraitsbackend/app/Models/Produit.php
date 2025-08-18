@@ -57,5 +57,9 @@ public function favoritedBy()
 {
     return $this->belongsToMany(User::class, 'favorites', 'produit_id', 'user_id')->withTimestamps();
 }
+public function ingredientPrincipal()
+{
+    return $this->belongsTo(Ingredient::class, 'ingredient_principal_id');
+}
 
 }

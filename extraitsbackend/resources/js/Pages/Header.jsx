@@ -5,7 +5,7 @@ import userIcon from './Auth/assets/icons/user.svg';
 import menuIcon from './Auth/assets/icons/menu.svg';
 import closeIcon from './Auth/assets/icons/close.svg';
 import logo from './Auth/assets/icons/logo.svg';
-
+import { useSearchStore } from './store/SearchStore';
 import { Link, router, usePage } from '@inertiajs/react';
 import { useCartStore } from './store/CartStore';
 import FloatingCart from './components/FloatingCart';
@@ -15,6 +15,9 @@ export default function Header() {
   const { url } = usePage();
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleCart = useCartStore((state) => state.toggleCart);
+  // const [searchQuery, setSearchQuery] = useState("");
+  const searchQuery = useSearchStore((state) => state.searchQuery);
+const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
 
   const menuItems = [
     { label: 'Home', link: '/dashboard' },
@@ -63,11 +66,14 @@ export default function Header() {
           <div className="relative w-28 sm:w-40 md:w-64">
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             <input
-              type="text"
-              placeholder="Rechercher..."
-              title="Recherche"
-              className="pl-10 pr-3 py-2 border rounded text-sm sm:text-base w-full"
-            />
+  type="text"
+  placeholder="Rechercher..."
+  title="Recherche"
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+  className="pl-10 pr-3 py-2 border rounded text-sm sm:text-base w-full"
+/>
+
           </div>
 
           {/* <Notifications /> */}

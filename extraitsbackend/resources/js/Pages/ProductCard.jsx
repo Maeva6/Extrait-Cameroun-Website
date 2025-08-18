@@ -27,26 +27,46 @@ export default function ProductCard({ product }) {
       <p className="text-sm font-semibold text-gray-800 mt-1">{product.prixProduit} FCFA</p>
       <p className="text-sm font-semibold text-gray-800 mt-1">{product.contenanceProduit}</p>
 
-      <div className="flex justify-center gap-3 my-2">
+      {/* <div className="flex justify-center gap-3 my-2">
         {product.ingredients?.map((ing) => (
-          <div key={ing.name} className="flex flex-col items-center text-xs text-gray-600">
+          <div key={ing.id} className="flex flex-col items-center text-xs text-gray-600">
             <img src={ing.imageIngredient} alt={ing.name} 
   className="w-24 h-24 rounded-full border border-gray-300 shadow" />
             <span>{ing.name}</span>
           </div>
         ))}
-      </div>
-
+      </div> */}
+   {product.ingredients?.length > 0 && (
+  <div className="mt-3 w-full">
+    <h4 className="text-xs font-semibold text-gray-700 mb-2">Ingrédients clés :</h4>
+    <ul className="flex flex-wrap gap-3">
+      {product.ingredients.map((ingredient) => (
+        <li key={ingredient.id} className="flex flex-col items-center w-16">
+          <img
+            src={ingredient.imageIngredient}
+            alt={ingredient.nomIngredient}
+            className="w-12 h-12 object-cover rounded-full border border-gray-300 shadow-sm"
+          />
+          <span className="text-[10px] text-center mt-1 text-gray-600">{ingredient.nomIngredient}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
       <p className="text-xs text-gray-600 text-center line-clamp-3">
         {product.description}
       </p>
 
-      <Link
+      {/* <Link
         href={`/product/${product.id}`}
         className="mt-3 bg-black text-white text-xs font-bold py-2 px-4 rounded hover:bg-gray-800"
       >
        Voir le produit
-      </Link>
+      </Link> */}
+      <span  className="mt-3 bg-black text-white text-xs font-bold py-2 px-4 rounded hover:bg-gray-800">
+  Voir le produit
+</span>
+
     </div>
   );
 }

@@ -1,52 +1,31 @@
 import React from "react";
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const FragranceQuizStep3 = ({ selectedSex, scentType }) => {
- const page = usePage();
-const query = new URLSearchParams(window.location.search);
-
-const sexe =
-  selectedSex ||
-  page.props.selectedSex ||
-  query.get("selectedSex") ||
-  localStorage.getItem("sex");
-
-const typeRaw =
-  scentType ||
-  page.props.scentType ||
-  query.get("scentType") ||
-  localStorage.getItem("scentType");
-
-const type = typeRaw === "null" ? null : typeRaw;
-
   const handleSelect = (mood) => {
-    localStorage.setItem("scentType", type);
-    router.visit("/quiz/step4", { 
-       method: "get",
-     params: { selectedSex: sexe, scentType: type, mood },
+    router.visit("/quiz/step4/homme", {
+       data: {
+        sex: selectedSex,
+        scentType: scentType,
+        mood: mood,
+      },
     });
-    console.log({ selectedSex: sexe, scentType: type, mood });
-
-    localStorage.setItem("selectedSex", sexe);
-localStorage.setItem("scentType", type);
-localStorage.setItem("mood", mood);
-
   };
 
   const options = [
     {
-      id: "Sophistiquee",
-      label: "Sophistiquée",
-      image: "https://i.imgur.com/eYtjUpD.jpeg",
+      id: "Sophistique",
+      label: "Sophistiqué",
+      image: "https://i.imgur.com/Kk6E2ZF.jpeg",
       description:
         "Vous recherchez une élégance raffinée, un parfum qui inspire respect et confiance.",
     },
     {
-      id: "Ludique",
-      label: "Ludique",
-      image: "https://i.imgur.com/sPVzP33.jpeg",
+      id: "Enjoue",
+      label: "Enjoué",
+      image: "https://i.imgur.com/U1xYD0C.jpeg",
       description:
         "Vous préférez la légèreté, l’insouciance, un parfum pétillant et joyeux comme vous.",
     },
@@ -95,21 +74,13 @@ localStorage.setItem("mood", mood);
             </div>
           ))}
         </div>
-               {/* <div className="mt-10">
+          <div className="mt-10">
           <button
-            onClick={() => router.visit("/quiz/ingredients")}
-            className="border rounded px-4 py-2 bg-white hover:bg-gray-200 transition"
-          >
-            ← Retour
-          </button> */}
-             {/* Bouton retour */}
-        <div className="mt-10">
-          <button
-            onClick={() =>
-              router.visit("/quiz/ingredients", {
-                data: { selectedSex, scentType },
-              })
-            }
+            onClick={() => router.visit("/quiz/senteurs-homme",{
+              data: {
+                sex: selectedSex,
+              }
+            })}
             className="border rounded px-4 py-2 bg-white hover:bg-gray-200 transition"
           >
             ← Retour

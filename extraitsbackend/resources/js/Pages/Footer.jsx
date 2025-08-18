@@ -19,7 +19,7 @@ export default function Footer() {
           <h5 className="font-semibold mb-2">Boutique</h5>
           <ul className="space-y-1">
             <li>
-              <Link href="/famille/parfums-de-corps" className="hover:text-[#d4af37] transition-colors">• Tous les parfums</Link>
+              <Link href="/body-perfume" className="hover:text-[#d4af37] transition-colors">• Tous les parfums</Link>
             </li>
             <li>
               <Link href="/nouveautes" className="hover:text-[#d4af37] transition-colors">• Nouveautés</Link>

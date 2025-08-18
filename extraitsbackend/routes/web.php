@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CommandeController;
@@ -39,9 +40,10 @@ Route::get('/', function () {
 
 // 🎯 Route QUIZ publique
 Route::get('/quiz/resultat', [RecommendationController::class, 'result']);
-Route::get('/quiz/fragrance-result', fn () => Inertia::render('FragranceQuizStep3'));
+Route::get('/quiz/fragrance-result', fn () => Inertia::render('FragranceQuizStepfinal'));
 Route::get('/quiz/ingredients', fn () => Inertia::render('FragranceQuizStep2'));
-Route::get('/quiz/senteurs', fn () => Inertia::render('FragranceQuizStepSenteurs'))->name('quiz.senteurs');
+Route::get('/quiz/senteurs', fn () => Inertia::render('FragranceQuizStep3'))->name('quiz.senteurs');
+Route::get('/quiz/senteurs-homme', fn () => Inertia::render('FragranceQuizStep2Homme'))->name('quiz.senteurs');
 Route::get('/famille/parfums-dambiance', fn () => Inertia::render('HomeFragrance'))->name('senteurs');
 Route::get('/famille/parfums-de-corps', fn () => Inertia::render('BodyPerfume'))->name('senteurs');
 Route::get('/famille/cosmetiques', fn () => Inertia::render('Cosmetiques'))->name('senteurs');
@@ -298,6 +300,33 @@ Route::middleware('auth')->group(function () {
     
     Route::post('/favorites', [FavoriteController::class, 'store'])->middleware('auth');
     Route::get('/famille/cosmetiques', [ProductController::class, 'cosmetiques'])->name('cosmetiques');
+
+    //New version quizz
+    Route::get('/quiz/step4', function () {
+    return Inertia::render('FragranceQuizStep4');
+});
+Route::get('/quiz/step4/homme', function () {
+    return Inertia::render('FragranceQuizStep4-homme');
+});
+Route::get('/quiz/step3-homme', function () {
+    return Inertia::render('FragranceQuizStep3-homme');
+});
+Route::get('/quiz/step5', function (\Illuminate\Http\Request $request) {
+    return Inertia::render('FragranceQuizStep5', [
+        'selectedSex' => $request->selectedSex,
+        'scentType' => $request->scentType,
+        'mood' => $request->mood,
+        'vibe' => $request->vibe,
+    ]);
+});
+Route::get('/quiz/step5-homme', function (\Illuminate\Http\Request $request) {
+    return Inertia::render('FragranceQuizStep5-homme', [
+        'selectedSex' => $request->selectedSex,
+        'scentType' => $request->scentType,
+        'mood' => $request->mood,
+        'vibe' => $request->vibe,
+    ]);
+});
 
 });
 

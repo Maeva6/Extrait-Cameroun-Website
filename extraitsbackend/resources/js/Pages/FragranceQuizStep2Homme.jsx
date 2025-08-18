@@ -1,157 +1,83 @@
-// 📁 src/FragranceQuizStep2.jsx
-import React, { useState } from 'react';
-import { router } from '@inertiajs/react';
-import Header from './Header';
-import Footer from './Footer';
+import React from "react";
+import { router } from "@inertiajs/react";
+import Header from "./Header";
+import Footer from "./Footer";
 
-const ingredients = [
-  {
-    id: 1,
-    name: "Sûr de lui et charismatique 💼",
-    description: "Des notes boisées profondes, de cuir ou d'épices chaudes qui évoquent la puissance, la confiance et le leadership naturel.",
-    image: "/images/charismatique-sur.jpg"
-  },
-  {
-    id: 2,
-    name: "Sportif et énergique 🏋️‍♂️",
-    description: "Des accords frais et vivifiants à base d'agrumes, de menthe ou de notes marines pour un parfum dynamique et plein d’entrain.",
-    image: "/images/sportif-energique.jpg"
-  },
-  {
-    id: 3,
-    name: "Élégant et sophistiqué 🎩",
-    description: "Des senteurs raffinées mariant lavande, ambre ou bois nobles pour un style classique et irréprochable.",
-    image: "/images/élégant-sophistiqué.jpg"
-  },
-  {
-    id: 4,
-    name: "Mystérieux et intense 🌌",
-    description: "Un sillage sombre et captivant avec des notes orientales, résineuses ou fumées, pour un homme insaisissable et séduisant.",
-    image: "/images/mystérieux-intense.jpg"
-  },
-  {
-    id: 5,
-    name: "Libre et aventurier 🌍",
-    description: "Un parfum inspiré par la nature et les grands espaces : accords boisés, aromatiques et verts pour l'homme en quête de liberté.",
-    image: "/images/libre-aventurier.jpg"
-  },
-  {
-    id: 6,
-    name: "Décontracté et naturel 👕",
-    description: "Des fragrances légères et aériennes à base de musc blanc, de thé vert ou de notes aquatiques, parfaites au quotidien.",
-    image: "/images/décontracté-naturel.jpg"
-  },
-  {
-    id: 7,
-    name: "Romantique et attentionné 💌",
-    description: "Un mélange subtil de notes florales masculines, poudrées ou sucrées pour une aura douce, tendre et touchante.",
-    image: "/images/romantique-attentionné.jpg"
-  },
-  {
-    id: 8,
-    name: "Urbain et moderne 🏙️",
-    description: "Des accords innovants, métalliques ou ozoniques, qui capturent le rythme et l’élégance de la vie contemporaine.",
-    image: "/images/urbain-moderne.jpg"
-  },
-  {
-    id: 9,
-    name: "Traditionnel et discret 👔",
-    description: "Des notes classiques de fougère, lavande ou bois de santal qui rassurent, tout en restant élégantes et sobres.",
-    image: "/images/traditionnel-discret.jpg"
-  }
-];
-
-
-export default function FragranceQuizStep2() {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleSelect = (id) => {
-    setSelectedId(selectedId === id ? null : id);
+const FragranceQuizStep2Homme = ({ selectedSex }) => {
+  const handleSelect = (choice) => {
+    router.visit("/quiz/step3-homme", {
+      data: { scentType: choice, selectedSex },
+    });
   };
 
-  // const handleNext = () => {
-  //   if (selectedId) {
-  //     // stocke la personnalité dans localStorage ou Inertia visit
-  //     localStorage.setItem('selectedPersonnaliteId', selectedId);
-  //     router.visit('/quiz/senteurs');
-  //   }
-  // };
-  const handleNext = () => {
-  if (selectedId) {
-    const selected = ingredients.find(i => i.id === selectedId);
-    if (selected) {
-      // localStorage.setItem('selectedPersonnaliteId', selected.name); // 🔁 le nom, pas l'id
-      localStorage.setItem('selectedPersonnaliteId', selected.id); // 🟡 On stocke l'ID
-      router.visit('/quiz/senteurs');
-    }
-  }
-};
-
+  const options = [
+    {
+      id: "Warm",
+      label: "Chaleureux",
+      image:
+        "https://i.imgur.com/9WDvuPw.jpeg",
+      description:
+        "Vous aimez les senteurs qui enveloppent, réconfortent et évoquent la sensualité. Parfait pour des soirées intimes et marquer les esprits.",
+    },
+    {
+      id: "Fresh",
+      label: "Frais",
+      image:
+        "https://i.imgur.com/70fiOcP.jpeg",
+      description:
+        "Vous préférez la fraîcheur des agrumes, des fleurs légères ou de l'air marin. Parfait pour une sensation de pureté, d'énergie et de liberté.",
+    },
+  ];
 
   return (
-    <div className="font-montserrat font-bold min-h-screen flex flex-col">
-      <Header />
-       {/* progression */}
-      <div className="pt-20 bg-red-300">
-        <div className="h-4 bg-yellow-500 w-2/4"></div>
-      </div>
-      {/* <div className="pt-20 bg-red-300">
-        <div className="h-4 bg-yellow-500 w-1/3"></div>
-      </div> */}
+    <>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 font-montserrat">
+        <Header />
+  <div className="w-full max-w-4xl mb-6 pt-20">
+  <div className="h-2 w-full bg-gray-200 rounded-full relative">
+    <div className="h-2 bg-yellow-400 rounded-full absolute top-0 left-0" style={{ width: "40%" }}></div>
+  </div>
+</div>
 
-      <div className="flex-grow px-4 py-8 bg-gray-100 flex flex-col items-center">
-        <h2 className="text-xl md:text-2xl font-semibold mb-2">
-          Choisissez une personnalité
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+          Vers quel type de senteur penchez-vous ?
         </h2>
-        <p className="text-sm text-gray-600 mb-8 text-center">
-          Ce choix nous aidera à comprendre votre univers parfumé 🌿
+        <p className="text-gray-500 text-center mb-8 max-w-lg">
+          Faites votre choix pour affiner votre fragrance idéale.
         </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl ">
+          {options.map((option) => (
+           <div
+  key={option.id}
+  onClick={() => handleSelect(option.id)}
+  className="group cursor-pointer border rounded-2xl shadow hover:shadow-lg transition p-4"
+>
+  <img
+    src={option.image}
+    alt={option.label}
+    className="rounded-xl h-82 w-full object-cover mb-4 transform transition-transform duration-300 group-hover:scale-105"
+  />
+  <h3 className="text-xl font-semibold text-center">{option.label}</h3>
+  <p className="text-gray-600 text-sm text-center mt-2">
+    {option.description}
+  </p>
+</div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
-          {ingredients.map((ingredient) => (
-            <div
-              key={ingredient.id}
-              onClick={() => handleSelect(ingredient.id)}
-              className={`cursor-pointer border rounded-xl p-4 text-center bg-white shadow-md transition ${
-                selectedId === ingredient.id
-                  ? 'border-yellow-500 bg-yellow-300'
-                  : 'border-gray-300'
-              }`}
-            >
-              <img
-                src={ingredient.image}
-                alt={ingredient.name}
-                className="w-full h-80 object-cover rounded-md mb-3"
-              />
-              <h3 className="font-bold mb-1">{ingredient.name}</h3>
-              <p className="text-sm text-gray-600 mb-2">{ingredient.description}</p>
-              <button className="text-yellow-600 text-sm border border-yellow-500 px-3 py-1 rounded hover:bg-yellow-100">
-                {selectedId === ingredient.id ? 'Sélectionné' : 'Sélectionner'}
-              </button>
-            </div>
           ))}
         </div>
+        <div className="mt-10">
+  <button
+    onClick={() => router.visit("/find-my-fragrance")}
+    className="border rounded px-4 py-2 bg-white hover:bg-gray-200 transition"
+  >
+    ← Retour
+  </button>
+</div>
 
-        <div className="flex gap-4">
-          <button
-            onClick={() => router.back()}
-            className="border px-4 py-2 rounded bg-white hover:bg-gray-200"
-          >
-            Retour
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={!selectedId}
-            className={`px-4 py-2 rounded text-white ${
-              !selectedId ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:bg-gray-800'
-            }`}
-          >
-            Suivant
-          </button>
-        </div>
       </div>
-
       <Footer />
-    </div>
+    </>
   );
-}
+};
+
+export default FragranceQuizStep2Homme;

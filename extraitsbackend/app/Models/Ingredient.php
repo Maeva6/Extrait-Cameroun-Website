@@ -19,10 +19,14 @@ class Ingredient extends Model
     {
         return $this->belongsToMany(Formule::class, 'formule_ingredient')
                     ->withPivot('quantite', 'unite');
-    }
+    } 
     public function produits()
 {
     return $this->belongsToMany(Produit::class, 'produit_ingredient', 'ingredient_id', 'produit_id');
+}
+public function produitsPrincipaux()
+{
+    return $this->hasMany(Produit::class, 'ingredient_principal_id');
 }
 
 }

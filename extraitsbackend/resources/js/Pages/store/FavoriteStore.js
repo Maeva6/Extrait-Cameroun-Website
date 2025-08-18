@@ -4,6 +4,8 @@ export const useFavoritesStore = create((set, get) => ({
   favorites: [],
 
   addToFavorites: (product) => {
+    console.log("🧡 Favoris - produit reçu :", product);
+
     const exists = get().favorites.some((item) => item.id === product.id);
     if (!exists) {
       set((state) => ({
