@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Reapprovisionnement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Ingredient;
 
 class ReapprovisionnementController extends Controller
 {
@@ -52,5 +54,89 @@ class ReapprovisionnementController extends Controller
         return response()->json(['error' => $e->getMessage()], 500);
     }
 }
+public function import(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->input('data');
+            
+            if (empty($data)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aucune donnée à importer'
+                ], 400);
+            }
 
+            $errors = [];
+            $importedCount = 0;
+
+            foreach ($data as $index => $row) {
+                try {
+                    // Validation des données
+                    if (!isset($row['ingredient_id']) || !isset($row['quantite_ajoutee'])) {
+                        throw new \Exception('ID et quantité sont obligatoires');
+                    }
+
+                    $ingredientId = (int)$row['ingredient_id'];
+                    $quantite = (float)$row['quantite_ajoutee'];
+
+                    if ($ingredientId <= 0) {
+                        throw new \Exception('ID d\'ingrédient invalide');
+                    }
+
+                    if ($quantite <= 0) {
+                        throw new \Exception('La quantité doit être positive');
+                    }
+
+                    // Mise à jour directe du stock
+                    $affected = DB::table('ingredients')
+                        ->where('id', $ingredientId)
+                        ->increment('stockActuel', $quantite);
+
+                    if ($affected === 0) {
+                        throw new \Exception('Ingrédient non trouvé');
+                    }
+
+                    // Enregistrement du réapprovisionnement
+                    Reapprovisionnement::create([
+                        'ingredient_id' => $ingredientId,
+                        'quantite_ajoutee' => $quantite,
+                        'date_reapprovisionnement' => now(),
+                        'fournisseur' => $row['fournisseur'] ?? null
+                    ]);
+
+                    $importedCount++;
+                } catch (\Exception $e) {
+                    $errors[] = [
+                        'line' => $index + 1,
+                        'message' => $e->getMessage(),
+                        'data' => $row
+                    ];
+                }
+            }
+
+            if (!empty($errors)) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreurs lors de l\'import',
+                    'errors' => $errors
+                ], 422);
+            }
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => "$importedCount réapprovisionnements importés avec succès",
+                'count' => $importedCount
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur serveur: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }

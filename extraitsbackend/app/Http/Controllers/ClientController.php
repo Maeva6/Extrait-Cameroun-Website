@@ -57,4 +57,62 @@ class ClientController extends Controller
         
         return response()->json(['message' => 'Client supprimé avec succès']);
     }
+      public function show($id)
+    {
+        try {
+            $client = User::where('id', $id)
+                        ->where('role', 'client')
+                        ->firstOrFail();
+            
+            return response()->json([
+                'id' => $client->id,
+                'name' => $client->name,
+                'email' => $client->email,
+                'phone' => $client->phone,
+                'address' => $client->address,
+                'status' => $client->status ?? 'Actif',
+                'created_at' => $client->created_at,
+                'updated_at' => $client->updated_at
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Client non trouvé'
+            ], 404);
+        }
+    }
+     public function import(Request $request)
+    {
+        $validated = $request->validate([
+            'clients' => 'required|array|min:1',
+            'clients.*.name' => 'required|string|max:255',
+            'clients.*.email' => 'required|email|unique:users,email',
+            'clients.*.phone' => 'nullable|string|max:20',
+            'clients.*.address' => 'nullable|string',
+            'clients.*.status' => 'required|in:Actif,Inactif'
+        ]);
+    
+        $createdClients = [];
+        
+        foreach ($request->clients as $clientData) {
+            $client = User::create([
+                'name' => $clientData['name'],
+                'email' => $clientData['email'],
+                'phone' => $clientData['phone'] ?? null,
+                'address' => $clientData['address'] ?? null,
+                'status' => $clientData['status'],
+                'password' =>  Hash::make('1234'),
+                'role' => 'client'
+            ]);
+            
+            $createdClients[] = $client;
+        }
+    
+        // Retournez une réponse Inertia au lieu de JSON
+        return back()->with([
+            'success' => 'Importation réussie',
+            'count' => count($createdClients),
+            'createdClients' => $createdClients
+        ]);
+    }
 }

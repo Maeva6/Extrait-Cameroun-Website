@@ -15,6 +15,10 @@ export default function CreateEmploye() {
         setUser(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleCancel = () => {
+        router.visit('/employes/admin'); // Remplacez '/employes' par le chemin souhaité
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -32,16 +36,16 @@ export default function CreateEmploye() {
     return (
         <div className="min-h-screen">
             <div className="flex">
-                <Navbar/>
+              
                 <div className="w-0 lg:w-[15px] bg-red"></div>
 
-                <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[300px]">
+                <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[220px]">
                     <h1 className="text-2xl font-bold mb-6">Ajouter un employé</h1>
                     
                     <form onSubmit={handleSubmit}>
                         {/* Nom complet */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                            <label className="block text-m font-medium text-gray-700 mb-1">Nom complet<span className='text-red-500'> *</span></label>
                             <input
                                 type="text"
                                 name="name"
@@ -55,7 +59,7 @@ export default function CreateEmploye() {
 
                         {/* Email */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
+                            <label className="block text-m font-medium text-gray-700 mb-1">Adresse email <span className='text-red-500'> *</span></label>
                             <input
                                 type="email"
                                 name="email"
@@ -72,7 +76,7 @@ export default function CreateEmploye() {
 
                         {/* Affichage du rôle (lecture seule) */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Rôle</label>
+                            <label className="block text-m font-medium text-gray-700 mb-1">Rôle</label>
                             <input
                                 type="text"
                                 value="Employé"
@@ -83,7 +87,7 @@ export default function CreateEmploye() {
 
                         {/* Mot de passe */}
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+                            <label className="block text-m font-medium text-gray-700 mb-1">Mot de passe <span className='text-red-500'> *</span></label>
                             <input
                                 type="password"
                                 name="password"
@@ -97,12 +101,14 @@ export default function CreateEmploye() {
 
                         {/* Boutons */}
                         <div className="flex justify-end gap-4 pt-4 border-t">
-                            <button
+                        <button
                                 type="button"
+                                onClick={handleCancel}
                                 className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                             >
                                 Annuler
                             </button>
+
                             <button
                                 type="submit"
                                 className="px-6 py-2 bg-[#D4AF37] text-white rounded-md hover:bg-[#C4A235]"

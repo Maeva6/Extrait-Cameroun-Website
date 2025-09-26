@@ -98,7 +98,7 @@ export default function Contact() {
           <div className="space-y-6">
             <div>
               <h2 className="text-xl font-bold text-yellow-700 mb-2">Adresse</h2>
-              <p className="text-gray-700">EXTRAITS Cameroun<br />Douala, Cameroun</p>
+              <p className="text-gray-700">EXTRAITS Cameroun<br />Douala, Cameroun <br />extraits1104@gmail.com</p>
             </div>
 
             <div>

@@ -27,7 +27,8 @@ class ProduitController extends Controller
                         'Id' => $produit->id,
                         'nomProduit' => $produit->nomProduit,
                         'Categorie' => $produit->categorie->name ?? 'Inconnue',
-                        'DateAjout' => $produit->created_at->format('d/m/Y'),
+                        // 'DateAjout' => $produit->created_at->format('d/m/Y'),
+                        'DateAjout' => optional($produit->created_at)->format('d/m/Y') ?? 'Date inconnue',
                         'Quantite' => $produit->quantiteProduit
                     ];
                 })
@@ -253,6 +254,63 @@ public function parfumsDeCorps()
         'products' => $produits,
     ]);
 }
+public function import(Request $request)
+    {
+        $data = $request->all();
 
+        foreach ($data as $item) {
+            $validator = Validator::make($item, [
+                'Nom' => 'required|string|max:100',
+                'Catégorie' => 'required|exists:categorie,id',
+                'Description' => 'nullable|string',
+                'Quantité' => 'required|integer|min:0',
+                'Contenance' => 'required|string|max:20',
+                'Sexe' => 'required|in:Homme,Femme,Unisexe',
+                'Personnalité' => 'nullable|string|max:100',
+                'Famille Olfactive' => 'nullable|string|max:50',
+                'Quantité Alerte' => 'required|integer|min:0',
+                'Prix' => 'required|numeric|min:0',
+                'Image Principale' => 'nullable|string|max:255',
+                'Mode d\'utilisation' => 'nullable|string',
+                'Particularité' => 'nullable|string',
+                'Senteurs' => 'nullable|string',
+                'Ingrédients' => 'required|string', // Assurez-vous que les ingrédients sont requis
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreur de validation des données',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Créer le produit
+            $produit = Produit::create([
+                'nomProduit' => $item['Nom'],
+                'categorie_id' => $item['Catégorie'],
+                'descriptionProduit' => $item['Description'],
+                'quantiteProduit' => $item['Quantité'],
+                'contenanceProduit' => $item['Contenance'],
+                'sexeCible' => $item['Sexe'],
+                'personnalite' => $item['Personnalité'],
+                'familleOlfactive' => $item['Famille Olfactive'],
+                'quantiteAlerte' => $item['Quantité Alerte'],
+                'prixProduit' => $item['Prix'],
+                'imagePrincipale' => $item['Image Principale'],
+                'modeUtilisation' => $item['Mode d\'utilisation'],
+                'particularite' => $item['Particularité'],
+                'senteur' => $item['Senteurs'],
+            ]);
+
+            // Associer les ingrédients au produit
+            if (isset($item['Ingrédients'])) {
+                $ingredientIds = array_map('trim', explode(',', $item['Ingrédients']));
+                $produit->ingredients()->attach($ingredientIds);
+            }
+        }
+
+        return response()->json(['message' => 'Données importées avec succès']);
+    }
 
 }

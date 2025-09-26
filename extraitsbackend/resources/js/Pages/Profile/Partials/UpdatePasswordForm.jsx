@@ -6,7 +6,7 @@ import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
 import { router } from '@inertiajs/react';
-// import { route } from 'ziggy-js';
+import { route } from 'ziggy-js';
  // ou 'ziggy' selon la config
 
 
@@ -29,27 +29,27 @@ export default function UpdatePasswordForm({ className = '' }) {
     });
 
     const updatePassword = (e) => {
-        e.preventDefault();
-        console.log(route('password.update'));
-        window.addEventListener('submit', e => console.log('Formulaire intercepté', e.target.action));
+    e.preventDefault();
 
-        router.put(route('password.update'),  {
-            preserveScroll: true,
-             preserveState: false, // ← ajoute cette ligne
-            onSuccess: () => reset(),
-            onError: (errors) => {
-                if (errors.password) {
-                    reset('password', 'password_confirmation');
-                    passwordInput.current.focus();
-                }
+    router.put(route('password.update'), {
+        current_password: data.current_password,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+    }, {
+        onSuccess: () => reset(),
+        onError: (errors) => {
+            if (errors.password) {
+                reset('password', 'password_confirmation');
+                passwordInput.current.focus();
+            }
+            if (errors.current_password) {
+                reset('current_password');
+                currentPasswordInput.current.focus();
+            }
+        }
+    });
+};
 
-                if (errors.current_password) {
-                    reset('current_password');
-                    currentPasswordInput.current.focus();
-                }
-            },
-        });
-    };
 
     return (
         <section className={className}>
@@ -146,4 +146,5 @@ export default function UpdatePasswordForm({ className = '' }) {
             </form>
         </section>
     );
+
 }

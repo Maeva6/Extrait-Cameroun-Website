@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Panier extends Model
 {
-    protected $fillable = ['user_id', 'produit_id', 'quantite'];
+    protected $fillable = ['user_id', 'produit_id', 'quantite', 'accessoire_id','service_id'];
 
     public function user() {
         return $this->belongsTo(User::class);
@@ -15,5 +15,14 @@ class Panier extends Model
     public function produit() {
         return $this->belongsTo(Produit::class);
     }
+    public function accessoire()
+{
+    return $this->belongsTo(Accessoires::class, 'accessoire_id');
+}
+public function service()
+{
+    return $this->belongsTo(\App\Models\Service::class, 'service_id');
+}
+
 }
 

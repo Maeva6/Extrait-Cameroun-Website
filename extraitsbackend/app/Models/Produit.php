@@ -27,9 +27,10 @@ class Produit extends Model
         'prixProduit',
         'imagePrincipale',
         'personnalite',
-        'senteur',
+        'senteur', 
         'modeUtilisation',
         'particularite',
+        'ingredient_principal_id',
     ];
 
     public function ingredients()

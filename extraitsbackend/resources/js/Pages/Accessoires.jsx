@@ -4,7 +4,8 @@ import { Link } from "@inertiajs/react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Header from "./Header";
 import Footer from "./Footer";
-import ProductCard from "./ProductCard";
+import AccessoireCard from "./AccessoireCard";
+import { usePage } from "@inertiajs/react";
 
 export default function HomeFragrance() {
   const [selectedSizes, setSelectedSizes] = useState({});
@@ -12,123 +13,124 @@ export default function HomeFragrance() {
 
   const itemsPerPage = 4;
 
-  const products = [
-    // [... mêmes produits ...]
-    {
-      id: 1,
-      name: "Vanille Lemon",
-      price: "25000 Fcfa",
-      size: "200ml",
-      category: "Diffuseurs ultrasonics",
-      imageUrl: "https://i.imgur.com/4riXP2u.jpeg",
-    },
-    {
-      id: 2,
-      name: "Twilight",
-      price: "25000 Fcfa",
-      size: "200ml",
-      category: "Diffuseurs ultrasonics",
-      imageUrl: "https://i.imgur.com/TbstkG0.jpeg",
-    },
-    {
-      id: 3,
-      name: "Lavender Bouquet",
-      price: "25000 Fcfa",
-      size: "200ml",
-      category: "Diffuseurs ultrasonics",
-      imageUrl: "https://i.imgur.com/YyvEELQ.jpeg",
-    },
-    {
-      id: 4,
-      name: "Fruits rouges",
-      price: "25000 Fcfa",
-      size: "200ml",
-      category: "Diffuseurs ultrasonics",
-      imageUrl: "https://i.imgur.com/7zsDJks.jpeg",
-    },
-    {
-      id: 4,
-      name: "Very Vanilla",
-      price: "25000 Fcfa",
-      size: "200ml",
-      category: "Diffuseurs ultrasonics",
-      imageUrl: "https://i.imgur.com/6pfGY2e.jpeg",
-    },
+  // const products = [
+  //   // [... mêmes produits ...]
+  //   {
+  //     id: 1,
+  //     name: "Vanille Lemon",
+  //     price: "25000 Fcfa",
+  //     size: "200ml",
+  //     category: "Diffuseurs ultrasonics",
+  //     imageUrl: "https://i.imgur.com/4riXP2u.jpeg",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Twilight",
+  //     price: "25000 Fcfa",
+  //     size: "200ml",
+  //     category: "Diffuseurs ultrasonics",
+  //     imageUrl: "https://i.imgur.com/TbstkG0.jpeg",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Lavender Bouquet",
+  //     price: "25000 Fcfa",
+  //     size: "200ml",
+  //     category: "Diffuseurs ultrasonics",
+  //     imageUrl: "https://i.imgur.com/YyvEELQ.jpeg",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Fruits rouges",
+  //     price: "25000 Fcfa",
+  //     size: "200ml",
+  //     category: "Diffuseurs ultrasonics",
+  //     imageUrl: "https://i.imgur.com/7zsDJks.jpeg",
+  //   },
+  //   {
+  //     id: 4,
+  //     name: "Very Vanilla",
+  //     price: "25000 Fcfa",
+  //     size: "200ml",
+  //     category: "Diffuseurs ultrasonics",
+  //     imageUrl: "https://i.imgur.com/6pfGY2e.jpeg",
+  //   },
 
     
-    {
-      id: 5,
-      name: "Tea Tree",
-      price: "1000 Fcfa",
-      size: "",
-      category: "Porte batonnets d'encens",
-      imageUrl: "https://i.imgur.com/SVOE0mI.jpeg",
-    },
-    {
-      id: 6,
-      name: "Clove",
-      price: "1000 Fcfa",
-      size: "",
-      category: "Porte batonnets d'encens",
-      imageUrl: "https://i.imgur.com/sRLIIEX.jpeg",
-    },
-    {
-      id: 7,
-      name: "Patchouli",
-      price: "1000 Fcfa",
-      size: "",
-      category: "Porte batonnets d'encens",
-      imageUrl: "https://i.imgur.com/nu0pQl2.jpeg",
-    },
-    {
-      id: 8,
-      name: "Fruits Rouges",
-      price: "3000 Fcfa",
-      size: "35ml",
-      category: "Porte d'encens conique",
-      imageUrl: "https://i.imgur.com/Aes9NpI.jpeg",
-    },
-    {
-      id: 9,
-      name: "Lemon Vanille",
-      price: "3000 Fcfa",
-      size: "35ml",
-      category: "Porte d'encens conique",
-      imageUrl: "https://i.imgur.com/BZDxhAq.jpeg",
-    },
-    {
-      id: 10,
-      name: "Lavender Bouquet",
-      price: "3000 Fcfa",
-      size: "35ml",
-      category: "Porte d'encens conique",
-      imageUrl: "https://i.imgur.com/lodJd7a.jpeg",
-    },
-    {
-      id: 11,
-      name: "Car perfume",
-      price: "8000 Fcfa",
-      size: "12ml",
-      category: "Brûleurs de cire métallique et céramique",
-      imageUrl: "https://i.imgur.com/8pJ1gnY.jpeg",
-    },
-    {
-      id: 12,
-      name: "Car perfume",
-      price: "8000 Fcfa",
-      size: "12ml",
-      category: "Brûleurs de cire métallique et céramique",
-      imageUrl: "https://i.imgur.com/nJlAYj0.jpeg",
-    },
-    {
-      id: 13,
-      name: "Car perfume",
-      price: "8000 Fcfa",
-      size: "12ml",
-      category: "Brûleurs de cire métallique et céramique",
-      imageUrl: "https://i.imgur.com/mzrSZ8D.jpeg",
-    },
-  ];
+  //   {
+  //     id: 5,
+  //     name: "Tea Tree",
+  //     price: "1000 Fcfa",
+  //     size: "",
+  //     category: "Porte batonnets d'encens",
+  //     imageUrl: "https://i.imgur.com/SVOE0mI.jpeg",
+  //   },
+  //   {
+  //     id: 6,
+  //     name: "Clove",
+  //     price: "1000 Fcfa",
+  //     size: "",
+  //     category: "Porte batonnets d'encens",
+  //     imageUrl: "https://i.imgur.com/sRLIIEX.jpeg",
+  //   },
+  //   {
+  //     id: 7,
+  //     name: "Patchouli",
+  //     price: "1000 Fcfa",
+  //     size: "",
+  //     category: "Porte batonnets d'encens",
+  //     imageUrl: "https://i.imgur.com/nu0pQl2.jpeg",
+  //   },
+  //   {
+  //     id: 8,
+  //     name: "Fruits Rouges",
+  //     price: "3000 Fcfa",
+  //     size: "35ml",
+  //     category: "Porte d'encens conique",
+  //     imageUrl: "https://i.imgur.com/Aes9NpI.jpeg",
+  //   },
+  //   {
+  //     id: 9,
+  //     name: "Lemon Vanille",
+  //     price: "3000 Fcfa",
+  //     size: "35ml",
+  //     category: "Porte d'encens conique",
+  //     imageUrl: "https://i.imgur.com/BZDxhAq.jpeg",
+  //   },
+  //   {
+  //     id: 10,
+  //     name: "Lavender Bouquet",
+  //     price: "3000 Fcfa",
+  //     size: "35ml",
+  //     category: "Porte d'encens conique",
+  //     imageUrl: "https://i.imgur.com/lodJd7a.jpeg",
+  //   },
+  //   {
+  //     id: 11,
+  //     name: "Car perfume",
+  //     price: "8000 Fcfa",
+  //     size: "12ml",
+  //     category: "Brûleurs de cire métallique et céramique",
+  //     imageUrl: "https://i.imgur.com/8pJ1gnY.jpeg",
+  //   },
+  //   {
+  //     id: 12,
+  //     name: "Car perfume",
+  //     price: "8000 Fcfa",
+  //     size: "12ml",
+  //     category: "Brûleurs de cire métallique et céramique",
+  //     imageUrl: "https://i.imgur.com/nJlAYj0.jpeg",
+  //   },
+  //   {
+  //     id: 13,
+  //     name: "Car perfume",
+  //     price: "8000 Fcfa",
+  //     size: "12ml",
+  //     category: "Brûleurs de cire métallique et céramique",
+  //     imageUrl: "https://i.imgur.com/mzrSZ8D.jpeg",
+  //   },
+  // ];
+  const { products = [] } = usePage().props;
 
   const categories = [...new Set(products.map((p) => p.category))];
   const sizes = [...new Set(products.map((p) => p.size))];
@@ -171,6 +173,7 @@ const stopDrag = () => {
 
   return (
     <>
+    <div className="min-h-screen flex flex-col">
       <Header />
       <div className="pt-28 font-montserrat font-bold px-6 py-4">
         {categories.map((category) => {
@@ -209,7 +212,7 @@ const filtered = filteredByCategory.filter(
   className="border border-gray-300 rounded px-3 py-1 text-sm"
 >
   <option value="">Toutes</option>
-  {[...new Set(filteredByCategory.map((p) => p.size))].map((size) => (
+  {[...new Set(filteredByCategory.map((p) => p.size))].map((size,index) => (
 
     <option key={size} value={size}>
       {size}
@@ -242,7 +245,7 @@ const filtered = filteredByCategory.filter(
           key={product.id}
           className="min-w-[150px] sm:min-w-[200px] text-center"
         >
-          <Link href={`/product/${product.slug}`}>
+          {/* <Link href={`/product/${product.slug}`}> */}
             {/* <img
               src={product.imageUrl}
               alt={product.name}
@@ -253,8 +256,14 @@ const filtered = filteredByCategory.filter(
             </h3>
             <p className="text-yellow-600">{product.price}</p>
              <p className="text-yellow-500 text-sm">{product.size}</p> Ajout de la contenance */}
-           <ProductCard product={product} />
-          </Link>
+           {/* <ProductCard product={product} /> */}
+           {/* <AccessoireCard product={product} /> */}
+           <AccessoireCard
+  product={product}
+  onVoirPlus={(item) => console.log("Voir plus :", item)}
+/>
+
+          {/* </Link> */}
         </div>
       ))}
     </div>
@@ -273,7 +282,9 @@ const filtered = filteredByCategory.filter(
           );
         })}
       </div>
+      </div>
       <Footer />
+      
     </>
   );
 }

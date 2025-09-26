@@ -37,10 +37,9 @@ export default function CreateClient() {
     return (
         <div className="min-h-screen">
             <div className="flex">
-                <Navbar/>
                 <div className="w-0 lg:w-[15px] bg-red"></div>
 
-                <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[300px]">
+                <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[240px]">
                     <h1 className="text-2xl font-bold mb-6">Ajouter un client</h1>
                     
                     <form onSubmit={handleSubmit}>

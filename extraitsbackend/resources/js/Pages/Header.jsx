@@ -36,7 +36,7 @@ const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
         {/* Menu hamburger (mobile) */}
         <div className="md:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
-            <img src={menuOpen ? closeIcon : menuIcon} alt="Menu" className="w-6 h-6" />
+            <img src={menuOpen ? closeIcon : menuIcon} alt="Menu" className="w-6 h-6 cursor-pointer" />
           </button>
         </div>
 

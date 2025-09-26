@@ -4,6 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState, useEffect, useMemo } from 'react';
 import { Factory, AlertTriangle, ClipboardList, Maximize2, Loader2, Package, Check, X } from 'lucide-react';
 import Navbar from '../components/navBar';
+import { router } from '@inertiajs/react';
 
 export default function FormulaireProduction() {
 
@@ -125,63 +126,50 @@ useEffect(() => {
 }, [formuleSelectionnee]);
 
 // Soumission du formulaire
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validationPossible || !formuleSelectionnee || isSubmitting) return;
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!validationPossible || !formuleSelectionnee || isSubmitting) return;
+
+  const productionData = {
+    formule_id: formuleSelectionnee.id,
+    quantite: parseInt(quantite),
+    ingredients_utilises: besoinsIngredients.map(ing => ({
+      ingredient_id: ing.id,
+      quantite_utilisee: parseFloat(ing.quantiteNecessaire),
+      unite: ing.pivot.unite
+    }))
+  };
+
+  setIsSubmitting(true);
   
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    
-    const productionData = {
-      formule_id: formuleSelectionnee.id,
-      quantite: parseInt(quantite),
-      ingredients_utilises: besoinsIngredients.map(ing => ({
-        ingredient_id: ing.id,
-        quantite_utilisee: parseFloat(ing.quantiteNecessaire),
-        unite: ing.pivot.unite
-      }))
-    };
-  
-    setIsSubmitting(true);
-    try {
-      const response = await fetch('/productions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-CSRF-TOKEN': csrfToken // Ajout du token CSRF
-        },
-        body: JSON.stringify(productionData)
-      });
-  
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Erreur lors de l\'enregistrement');
-      }
-  
-      // Réinitialisation après soumission
+  router.post('/productions', productionData, {
+    onSuccess: () => {
+      // Réinitialisation après succès
       setFormuleSelectionnee(null);
       setQuantite(1);
       setBesoinsIngredients([]);
       setProduitFinal(null);
-  
-      // Recharger les stocks
-      const stocksResponse = await fetch('/ingredients');
-      const stocksData = await stocksResponse.json();
-      setStocksIngredients(stocksData);
-  
-      // Afficher la popup de succès
+      
       setPopupMessage('Production enregistrée avec succès!');
       setPopupType('success');
       setShowPopup(true);
-    } catch (error) {
-      console.error('Erreur:', error);
-      setPopupMessage(`Erreur: ${error.message}`);
+      
+      // Recharger les stocks
+      fetch('/ingredients')
+        .then(res => res.json())
+        .then(setStocksIngredients);
+    },
+    onError: (errors) => {
+      setPopupMessage(
+        Object.values(errors).flat().join('\n') || 
+        'Erreur lors de l\'enregistrement'
+      );
       setPopupType('error');
       setShowPopup(true);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    },
+    onFinish: () => setIsSubmitting(false)
+  });
+};
 
 if (loading.initial) {
   return (
@@ -228,12 +216,12 @@ if (formules.length === 0) {
   return (
     <div className="min-h-screen">
       <div className="flex">
-        <Navbar/>
+        {/* <Navbar/> */}
         {/* Espace réservé pour la navbar */}
-        <div className="w-0 lg:w-[25px] bg-red"></div>
+        {/* <div className="w-0 lg:w-[25px] bg-red"></div> */}
 
         {/* Contenu principal */}
-        <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[300px]">
+        <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[270px]">
       <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
         <Factory className="text-[#D4AF37]" /> Lancement de production avancé
       </h1>
@@ -281,7 +269,7 @@ if (formules.length === 0) {
                   <p className="text-gray-600">{produitFinal.quantiteProduit} unités</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Nouveau stock</p>
+                  <p className="text-sm font-medium text-gray-700">Stock apres production</p>
                   <p className="text-gray-600 font-semibold">
                     {parseInt(produitFinal.quantiteProduit) + parseInt(quantite)} unités
                   </p>

@@ -189,14 +189,14 @@ export default function Contact() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       setErrors({});
-  
+    
       if (!validateForm()) {
         const errorMessages = Object.values(errors).join('\n');
         setPopupMessage(`Veuillez corriger les erreurs suivantes :\n${errorMessages}`);
         setShowPopup(true);
         return;
       }
-  
+    
       try {
         const formData = {
           nom: product.nom,
@@ -215,37 +215,25 @@ export default function Contact() {
           senteurs: product.senteurs,
           ingredients: product.ingredients
         };
-  
-        const response = await fetch('/produits', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    
+        // Utilisez router.post d'Inertia au lieu de fetch
+        router.post('/produits', formData, {
+          onSuccess: () => {
+            setPopupMessage('Produit créé avec succès!');
+            setShowPopup(true);
+            handleReset();
           },
-          body: JSON.stringify(formData)
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          let errorMessage = 'Erreur lors de la création du produit.';
-          if (errorData.errors) {
-            errorMessage = Object.values(errorData.errors).flat().join('\n');
-          } else if (errorData.message) {
-            errorMessage = errorData.message;
+          onError: (errors) => {
+            setPopupMessage(
+              Object.values(errors).flat().join('\n') || 
+              'Erreur lors de la création du produit'
+            );
+            setShowPopup(true);
           }
-          setPopupMessage(errorMessage);
-          setShowPopup(true);
-          return;
-        }
-  
-        const data = await response.json();
-        setPopupMessage(`Produit créé avec succès! ID: ${data.id}`);
-        setShowPopup(true);
-        handleReset();
-        setTimeout(() => router.visit('/produits'), 2000);
+        });
+    
       } catch (error) {
-        setPopupMessage(`Une erreur est survenue lors de la création du produit: ${error.message}`);
+        setPopupMessage(`Une erreur est survenue: ${error.message}`);
         setShowPopup(true);
       }
     };
@@ -288,12 +276,13 @@ export default function Contact() {
     <div className="min-h-screen">
       <div className="flex">
         {/* Espace réservé pour la navbar */}
-        <Navbar/>
-        <div className="w-0 lg:w-[5px] bg-red"></div>
+        {/* <Navbar/>
+        <div className="w-0 lg:w-[5px] bg-red"></div> */}
+
 
         {/* Contenu principal */}
  
-<div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[330px]">
+<div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[240px]">
 <h1 className="text-2xl font-bold mb-6">Ajouter un produit</h1>
 <form onSubmit={handleSubmit}>
         <div className="mb-6">

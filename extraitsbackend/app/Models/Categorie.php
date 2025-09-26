@@ -20,5 +20,9 @@ class Categorie extends Model
 {
     return $this->belongsTo(Categorie::class, 'idCategorie');
 }
+public function services()
+{
+    return $this->hasMany(Service::class);
+}
 
 }

@@ -194,4 +194,83 @@ public function clientStats(Request $request)
     return response()->json($finalStats);
 }
 
+public function updateStatut(Request $request, $id)
+{
+    $request->validate([
+        'statut' => 'required|in:en_attente,payée,expédiée,livrée,annulée'
+    ]);
+
+    $commande = Commande::findOrFail($id);
+    $commande->statutCommande = $request->statut;
+    $commande->save();
+
+    return response()->json([
+        'message' => 'Statut mis à jour avec succès',
+        'commande' => [
+            'id' => $commande->idCommande,
+            'display_id' => '#CMD-' . str_pad($commande->idCommande, 3, '0', STR_PAD_LEFT),
+            'statut' => $commande->statutCommande
+        ]
+    ]);
+}
+
+public function showDetails($id)
+{
+    try {
+        $commande = Commande::with(['client', 'produits'])->findOrFail($id);
+
+        // Conversion sécurisée de la date
+        $dateCommande = $commande->dateCommande;
+        if (is_string($dateCommande)) {
+            try {
+                $dateCommande = \Carbon\Carbon::parse($dateCommande)->toISOString();
+            } catch (\Exception $e) {
+                $dateCommande = $commande->created_at->toISOString();
+            }
+        } elseif ($dateCommande instanceof \Carbon\Carbon) {
+            $dateCommande = $dateCommande->toISOString();
+        } else {
+            $dateCommande = $commande->created_at->toISOString();
+        }
+
+        $data = [
+            'id' => $commande->idCommande,
+            'display_id' => '#' . str_pad($commande->idCommande, 3, '0', STR_PAD_LEFT),
+            'nom_client' => $commande->client->name ?? 'Client inconnu',
+            'paiement' => $commande->modePaiement ?? 'N/A',
+            'montant' => number_format($commande->montantTotal, 0, ',', ' ') . ' FCFA',
+            'etat' => $commande->statutCommande ?? 'En attente',
+            'date_commande' => $dateCommande,
+            'adresse_livraison' => $commande->adresseLivraison,
+            'commentaire' => $commande->commentaire,
+            'origine' => $commande->origineCommande,
+            'produits' => $commande->produits->map(function ($p) {
+                return [
+                    'nom' => $p->nomProduit,
+                    'quantite' => $p->pivot->quantite,
+                    'prix' => number_format($p->prixProduit, 0, ',', ' ') . ' FCFA', // Prix actuel du produit
+                    'prix_unitaire_numeric' => $p->prixProduit, // Utilisez le prix actuel pour les calculs
+                ];
+            }),
+            'client' => [
+                'email' => $commande->client->email ?? '',
+                'telephone' => $commande->client->telephone ?? '',
+            ]
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Erreur détail commande:', ['error' => $e->getMessage(), 'trace' => $e->getTrace()]);
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur lors de la récupération des détails',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }

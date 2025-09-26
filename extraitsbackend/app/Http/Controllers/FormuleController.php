@@ -160,4 +160,88 @@ class FormuleController extends Controller
     }
 }
 
+public function import(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'data' => 'required|array',
+        'data.*.nom_formule' => 'required|string|max:100',
+        'data.*.description' => 'nullable|string',
+        'data.*.produit_id' => 'required|exists:produit,id',
+        'data.*.instructions' => 'nullable|string',
+        'data.*.createur' => 'nullable|string|max:100',
+        'data.*.ingredients' => 'required|array|min:1',
+        'data.*.ingredients.*.ingredient_id' => 'required|exists:ingredients,id',
+        'data.*.ingredients.*.quantite' => 'required|numeric|min:0.01',
+        'data.*.ingredients.*.unite' => 'required|string|max:10'
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur de validation des données',
+            'errors' => $validator->errors()
+        ], 422);
+    }
+
+    DB::beginTransaction();
+    try {
+        $importedCount = 0;
+        $errors = [];
+
+        foreach ($request->data as $index => $data) {
+            try {
+                // Créer la formule
+                $formule = Formule::create([
+                    'nom_formule' => $data['nom_formule'],
+                    'description' => $data['description'] ?? null,
+                    'produit_id' => $data['produit_id'],
+                    'instructions' => $data['instructions'] ?? null,
+                    'createur' => $data['createur'] ?? null,
+                ]);
+
+                // Préparer les ingrédients
+                $ingredientsData = [];
+                foreach ($data['ingredients'] as $ingredient) {
+                    $ingredientsData[$ingredient['ingredient_id']] = [
+                        'quantite' => $ingredient['quantite'],
+                        'unite' => $ingredient['unite']
+                    ];
+                }
+
+                // Associer les ingrédients
+                $formule->ingredients()->attach($ingredientsData);
+
+                $importedCount++;
+            } catch (\Exception $e) {
+                $errors["Formule " . ($index + 1)] = $e->getMessage();
+            }
+        }
+
+        DB::commit();
+
+        if (!empty($errors)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Certaines formules n\'ont pas pu être importées',
+                'imported_count' => $importedCount,
+                'errors' => $errors
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Importation réussie',
+            'imported_count' => $importedCount
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur lors de l\'importation',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }

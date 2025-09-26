@@ -15,6 +15,13 @@ class Ingredient extends Model
         'categorie', 'photo', 'etat_physique'
     ];
 
+    // Ajoutez cette propriété pour inclure l'accesseur dans la sérialisation JSON
+    protected $appends = ['photo_url'];
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo;
+    }
     public function formules()
     {
         return $this->belongsToMany(Formule::class, 'formule_ingredient')

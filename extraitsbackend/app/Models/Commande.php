@@ -51,5 +51,20 @@ public function produits()
                 ->withPivot('quantite')
                 ->withTimestamps();
 }
+// ✅ Nouveaux : Services
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'commande_service')
+            ->withPivot('quantite')
+            ->withTimestamps();
+    }
+
+    // ✅ Nouveaux : Accessoires
+   public function accessoires()
+{
+    return $this->belongsToMany(Accessoires::class, 'commande_accessoire', 'commande_id', 'accessoire_id')
+        ->withPivot('quantite')
+        ->withTimestamps();
+}
 
 }

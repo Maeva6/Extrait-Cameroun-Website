@@ -62,5 +62,52 @@ public function show($id)
         'data' => $fournisseur
     ]);
 }
+public function import(Request $request)
+{
+    $request->validate([
+        'data' => 'required|array',
+        'data.*.nom_fournisseur' => 'required|string|max:255',
+        'data.*.contact_tel' => 'nullable|integer|max:9999999999999999999',
+        'data.*.adresse_mail' => 'nullable|email|max:255',
+        'data.*.adresse_boutique' => 'nullable|string',
+        'data.*.categorie_produit' => 'nullable|string|in:Alimentaire,Boissons,Épicerie,Produits frais,Matériel,Équipement,Services,Autres',
+        'data.*.site_web' => 'nullable|max:255',
+        'data.*.note' => 'nullable|integer|between:1,5'
+    ]);
 
+    $errors = [];
+    $successCount = 0;
+
+    foreach ($request->data as $index => $data) {
+        try {
+            Fournisseur::create([
+                'nom_fournisseur' => $data['nom_fournisseur'],
+                'contact_tel' => $data['contact_tel'],
+                'adresse_mail' => $data['adresse_mail'],
+                'adresse_boutique' => $data['adresse_boutique'],
+                'categorie_produit' => $data['categorie_produit'],
+                'site_web' => $data['site_web'],
+                'note' => $data['note']
+            ]);
+            $successCount++;
+        } catch (\Exception $e) {
+            $errors["Ligne " . ($index + 1)] = ["Erreur lors de la création : " . $e->getMessage()];
+        }
+    }
+
+    if (!empty($errors)) {
+        return response()->json([
+            'success' => false,
+            'message' => count($errors) . ' erreur(s) lors de l\'importation',
+            'errors' => $errors,
+            'imported_count' => $successCount
+        ], 422);
+    }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Tous les fournisseurs (' . $successCount . ') ont été importés avec succès',
+        'imported_count' => $successCount
+    ]);
+}
 }

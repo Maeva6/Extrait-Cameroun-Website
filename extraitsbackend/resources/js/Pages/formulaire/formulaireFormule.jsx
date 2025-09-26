@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import { PlusCircle, Trash2, Check, X } from 'lucide-react';
 import axios from 'axios';
 import Navbar from '../components/navBar';
+import { router } from '@inertiajs/react';
+
 
 export default function FormulaireFormule() {
 
@@ -121,41 +123,50 @@ export default function FormulaireFormule() {
         }));
     };
 
-// Configure Axios to include the CSRF token in the headers
-axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+// Remplacez la fonction handleSubmit existante par celle-ci :
 const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!validerFormulaire()) return;
+    
     setIsSubmitting(true);
-    try {
-        console.log('Données envoyées:', formule); // Ajoutez cette ligne pour vérifier les données
-
-        const response = await axios.post('/formules', formule);
-
-        if (response.status !== 201) { // Notez que le code de statut 201 est utilisé pour une création réussie
-            const errorData = response.data;
-            throw new Error(errorData.message || "Erreur lors de l'enregistrement");
-        }
-
-        // Afficher la popup de succès
+  
+    // Utilisation du router Inertia pour une meilleure intégration
+    router.post('/formules', formule, {
+      onSuccess: () => {
         setPopupMessage('Formule enregistrée avec succès!');
         setPopupType('success');
         setShowPopup(true);
-
-        // Redirection après 1.5 secondes
+        
+        // Réinitialisation après succès
         setTimeout(() => {
-            window.location.href = '/formules/admin';
+          setFormule({
+            nomFormule: '',
+            description: '',
+            produitFiniId: '',
+            ingredients: [],
+            instructions: '',
+            createur: ''
+          });
+          router.visit('/formules/admin');
         }, 1500);
-    } catch (error) {
-        console.error('Erreur:', error.response?.data);
-        setPopupMessage(error.response?.data?.message || error.message || "Une erreur est survenue");
+      },
+      onError: (errors) => {
+        setPopupMessage(
+          Object.values(errors).flat().join('\n') || 
+          "Une erreur est survenue"
+        );
         setPopupType('error');
         setShowPopup(true);
-    } finally {
-        setIsSubmitting(false);
-    }
-};
-    
+        
+        // Mise à jour des erreurs de validation
+        if (errors.errors) {
+          setErreurs(errors.errors);
+        }
+      },
+      onFinish: () => setIsSubmitting(false)
+    });
+  };    
     // Fonction pour annuler et rediriger
     const handleAnnuler = () => {
         setFormule({
@@ -167,16 +178,17 @@ const handleSubmit = async (e) => {
             createur: ''
         });
         setErreurs({});
-        navigate('/formules/admin');
+        router.visit('/formules/admin');
     };
+    
 
 
   return (
     <div className="min-h-screen">
       <div className="flex">
-        <Navbar/>
+        {/* <Navbar/> */}
         {/* Espace réservé pour la navbar */}
-        <div className="w-0 lg:w-[225px] bg-red"></div>
+        {/* <div className="w-0 lg:w-[225px] bg-red"></div> */}
 
         {/* Contenu principal */}
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow">
@@ -186,15 +198,22 @@ const handleSubmit = async (e) => {
                 {/* Informations de base */}
                 <div className="grid grid-cols-1 gap-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Nom de la formule*
+                        <label className="block text-m font-medium text-gray-700 mb-1">
+                            Nom de la formule <span className='text-red-500'> *</span>
                         </label>
                         <input
                             type="text"
                             value={formule.nomFormule}
                             onChange={(e) => setFormule({...formule, nomFormule: e.target.value})}
                             className={`w-full p-2 border rounded ${erreurs.nomFormule ? 'border-red-500' : 'border-gray-300'}`}
+                            placeholder='Entrer le nom de la formule...'
                             required
+                            onInvalid={(e) => {
+                                e.target.setCustomValidity("Veuillez definir un nom pour la formule");
+                              }}
+                              onInput={(e) => {
+                                e.target.setCustomValidity('');
+                              }}
                         />
                         {erreurs.nomFormule && (
                             <p className="mt-1 text-sm text-red-600">{erreurs.nomFormule}</p>
@@ -202,14 +221,20 @@ const handleSubmit = async (e) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Produit fini associé*
+                        <label className="block text-m font-medium text-gray-700 mb-1">
+                            Produit fini associé <span className='text-red-500'> *</span>
                         </label>
                         <select
                             value={formule.produitFiniId}
                             onChange={(e) => setFormule({...formule, produitFiniId: e.target.value})}
                             className={`w-full p-2 border rounded ${erreurs.produitFiniId ? 'border-red-500' : 'border-gray-300'}`}
                             required
+                            onInvalid={(e) => {
+                                e.target.setCustomValidity("Veuillez selectionner un produit fini");
+                              }}
+                              onInput={(e) => {
+                                e.target.setCustomValidity('');
+                              }}
                         >
                             <option value="">Sélectionner un produit fini</option>
                             {produitsFinis.map(produit => (
@@ -219,13 +244,13 @@ const handleSubmit = async (e) => {
                             ))}
                         </select>
                         {erreurs.produitFiniId && (
-                            <p className="mt-1 text-sm text-red-600">{erreurs.produitFiniId}</p>
+                            <p className="mt-1 text-m text-red-600">{erreurs.produitFiniId}</p>
                         )}
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-m font-medium text-gray-700 mb-1">
                         Créateur de la formule
                     </label>
                     <input
@@ -233,11 +258,12 @@ const handleSubmit = async (e) => {
                         value={formule.createur}
                         onChange={(e) => setFormule({...formule, createur: e.target.value})}
                         className="w-full p-2 border border-gray-300 rounded"
+                        placeholder='Veuillez entrer le nom du createur '
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-m font-medium text-gray-700 mb-1">
                         Description
                     </label>
                     <textarea
@@ -245,14 +271,15 @@ const handleSubmit = async (e) => {
                         onChange={(e) => setFormule({...formule, description: e.target.value})}
                         rows="2"
                         className="w-full p-2 border border-gray-300 rounded"
+                        placeholder='Veuillez entrer une description de la formule'
                     />
                 </div>
 
                 {/* Ingrédients */}
                 <div>
-                    <h3 className="text-lg font-semibold mb-3 text-gray-800">Ingrédients*</h3>
+                    <h3 className="text-lg font-semibold mb-3 text-gray-800">Ingrédients<span className='text-red-500'> *</span></h3>
                     {erreurs.ingredients && (
-                        <p className="mb-2 text-sm text-red-600">{erreurs.ingredients}</p>
+                        <p className="mb-2 text-m text-red-600">{erreurs.ingredients}</p>
                     )}
                     <div className="grid grid-cols-12 gap-3 mb-3">
                         <div className="col-span-5">
@@ -340,7 +367,7 @@ const handleSubmit = async (e) => {
 
                 {/* Instructions */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-m font-medium text-gray-700 mb-1">
                         Instructions de production
                     </label>
                     <textarea

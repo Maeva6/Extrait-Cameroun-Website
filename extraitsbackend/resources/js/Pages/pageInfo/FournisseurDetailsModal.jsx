@@ -79,7 +79,7 @@ const FournisseurDetailsModal = ({ fournisseurId, onClose }) => {
       <div className="flex">
         {/* Espace réservé pour la navbar */}
         <div className="w-0 lg:w-[225px] bg-red"></div>
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
       <div ref={modalRef} className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="p-4 flex justify-between items-center border-b sticky top-0 bg-white z-10">
           <h3 className="text-xl font-bold">Détails du fournisseur</h3>

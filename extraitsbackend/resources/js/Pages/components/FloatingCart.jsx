@@ -117,21 +117,21 @@ useEffect(() => {
                     </div>
                     <div className="flex flex-col items-center gap-1">
                       <button
-                        onClick={() => increaseQuantity(item.id)}
+                        onClick={() => increaseQuantity(item.id,item.type)}
                         className="text-lg bg-gray-200 rounded px-2 hover:bg-gray-300"
                       >
                         +
                       </button>
                       <span className="px-2">{item.quantity}</span>
                       <button
-                        onClick={() => decreaseQuantity(item.id)}
+                        onClick={() => decreaseQuantity(item.id,item.type)}
                         className="text-lg bg-gray-200 rounded px-2 hover:bg-gray-300"
                       >
                         −
                       </button>
                     </div>
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item.id,item.type)}
                       className="text-red-400 text-sm ml-2"
                     >
                       ✕

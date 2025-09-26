@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Search, Plus, X, ShoppingCart, CreditCard, Truck, Wallet } from 'lucide-react';
 import { Link, usePage, router } from '@inertiajs/react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
@@ -83,6 +82,10 @@ export default function Contact({clients = [],produits=[]}) {
       }));
     };
   
+    const handleCancel = () => {
+      router.visit('/commandes/admin'); // Remplacez '/commandes' par le chemin souhaité
+  };
+  
     // Calculer le total de la commande
     const totalCommande = commande.produits.reduce((sum, item) => sum + (item.quantite * item.prixUnitaire), 0);
   console.log("Soumission en cours...");
@@ -110,20 +113,11 @@ const payload = {
   payment_method: commande.methodePaiement,
   lastname: selectedClient.name,
   firstname: selectedClient.prenom || selectedClient.name || 'Client inconnu',
-// lastname: selectedClient.name || '',
   city: commande.adresseLivraison.split(',')[0] || '',
   neighborhood: commande.adresseLivraison.split(',')[1] || '',
  phone: selectedClient.numero || selectedClient.telephone_client || 'Non fourni' // <- ajusté ici
 };
 
-  //   axios.post('/admin/commandes', payload,{
-  //     onSuccess: () => {
-  //   console.log('Commande envoyée avec succès');
-  // },
-  // onError: (errors) => {
-  //   console.error('Erreur lors de la soumission de la commande', errors);
-  // },
-  //   }); 
   axios.post('/admin/commandes', payload)
   .then(response => {
     console.log('✅ Commande envoyée avec succès', response.data);
@@ -369,7 +363,7 @@ console.log('Produits:', produits);
                 className="text-[#D4AF37] focus:ring-[#D4AF37]"
               />
               <CreditCard size={16} />
-              <span>Carte bancaire</span>
+              <span>Mobile money</span>
             </label>
           </div>
         </div>
@@ -409,11 +403,13 @@ console.log('Produits:', produits);
 
       <div className="flex justify-end gap-4">
         <button
-          type="button"
-          className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-        >
-          Annuler
-        </button>
+    type="button"
+    onClick={handleCancel}
+    className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+>
+    Annuler
+</button>
+
         <button
           type="button"
           onClick={handleSubmit}

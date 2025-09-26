@@ -27,6 +27,11 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\RapportController;
 use App\Http\Controllers\PanierController;
 use App\http\controllers\FavoriteController;
+use App\Http\Controllers\AccessoireController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\LocalisationController;
+use App\Http\Controllers\AffectationController;
+
 
 // 🌐 Pages publiques
 Route::get('/', function () {
@@ -50,7 +55,9 @@ Route::get('/famille/cosmetiques', fn () => Inertia::render('Cosmetiques'))->nam
 Route::get('/services/gift-set', fn () => Inertia::render('SpecialGiftSet'))->name('senteurs');
 Route::get('/notre-histoire', fn () => Inertia::render('About'))->name('about');
 Route::get('/contact', fn () => Inertia::render('Contact'))->name('contact');
-Route::get('/famille/accessoires', fn () => Inertia::render('Accessories'))->name('accessoires');
+// Route::get('/famille/accessoires', fn () => Inertia::render('Accessories'))->name('accessoires');
+Route::get('/famille/accessoires', [AccessoireController::class, 'index'])->name('accessoires.index');
+Route::get('/accessoire/{slug}', [AccessoireController::class, 'show'])->name('accessoire.show');
 // Route::get('/product/{slug}', function ($slug) {
 //     return Inertia::render('ProductPage', [
 //         'slug' => $slug
@@ -148,7 +155,7 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/commandes/admin', [AdminController::class, 'index1']);
-    // Route::get('/accesutilisateur/admin', [AdminController::class, 'accesUtilisateur'])->name('acces.utilisateur');
+    // Route::get('/utilisateur/admin', [AdminController::class, 'accesUtilisateur'])->name('acces.utilisateur');
     // Route::get('/formulairecommande/admin', fn () => Inertia::render('formulaire/formulaireCommande'))->name('produit');
     Route::post('/admin/commandes', [CommandeController::class, 'store']);
 
@@ -327,7 +334,100 @@ Route::get('/quiz/step5-homme', function (\Illuminate\Http\Request $request) {
         'vibe' => $request->vibe,
     ]);
 });
-
+Route::get('/services/gift-set', [ServiceController::class, 'index']);
 });
+Route::get('/services/{slug}', [ServiceController::class, 'show']);
+Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy'])->name('favorites.destroy');
+
+
 
 require __DIR__.'/auth.php';
+Route::post('/import', [ProduitController::class, 'import']);
+
+
+//Ajout de la route pour l'import des donnnees par fichier excel
+Route::post('/ingredients/import', [IngredientController::class, 'import'])->name('ingredients.import');
+
+
+//Ajout des routes pour l'import des fournisseurs
+Route::post('/fournisseurs/import', [FournisseurController::class, 'import']);
+
+//Ajout des routes pour l'import des formules
+Route::post('/formules/import', [FormuleController::class, 'import']);
+
+//Ajout des routes pour l'import des reapprovisionnement des ingredients
+Route::post('/reapprovisionnements/import', [ReapprovisionnementController::class, 'import']);
+
+//Ajout des routes pour l'import de clients 
+Route::post('/clients/import', [ClientController::class, 'import']);
+
+//Ajout des routes pour l'import des employes
+Route::post('/employes/import', [EmployeController::class, 'import'])
+     ->middleware(['auth', 'web'])
+     ->name('employes.import');
+
+
+//Routes pour la gestion de la page des rapports
+Route::group(['prefix' => 'rapport'], function() {
+    Route::get('data', [RapportController::class, 'getRapportData']);
+    Route::get('top-produits', [RapportController::class, 'getTopProduitsVendus']);
+    Route::get('ventes-categories', [RapportController::class, 'getVentesParCategorieSenteur']);
+    Route::get('details-ventes', [RapportController::class, 'getDetailsVentes']);
+});
+
+Route::get('/rapport-complet', [RapportController::class, 'getFullReport']);
+
+//API pour afficher les details de la page employes
+Route::get('/recupeemploye/{id}', [EmployeController::class, 'show'])->middleware('auth');
+
+//API pour afficher les details de la page des clients
+Route::get('/clients/{id}', [ClientController::class, 'show']);
+
+//Route pour redirection vers la page par default de tous les employes sans permissions
+Route::get('/admin/acces-utilisateur', [AdminController::class, 'accesUtilisateur'])->name('acces.utilisateur');
+
+Route::patch('/commandes/{id}/status', [CommandeController::class, 'updateStatus'])->name('commandes.updateStatus');
+
+Route::put('/commandes/{id}/status', [CommandeController::class, 'updateStatus'])->name('commandes.updateStatus');
+
+Route::put('/commandes/{id}/statut', [AdminController::class, 'updateStatut'])->name('commandes.updateStatut');
+
+Route::get('/commandes/{id}/details', [AdminController::class, 'showDetails']);
+
+
+Route::middleware(['auth'])->group(function () {
+    // Route pour afficher la page d'affectation
+    Route::get('/attribution/admin', function () {
+        return Inertia::render('Admin/AffectationStock', [
+            'user' => Auth::user(),
+        ]);
+    })->name('attribution.admin');
+
+    // Routes pour les localisations
+    Route::get('/localisations', [LocalisationController::class, 'index'])->name('localisations.index');
+    Route::post('/localisations', [LocalisationController::class, 'store'])->name('localisations.store');
+    Route::get('/localisations/{id}', [LocalisationController::class, 'show'])->name('localisations.show');
+    Route::put('/localisations/{id}', [LocalisationController::class, 'update'])->name('localisations.update');
+    Route::delete('/localisations/{id}', [LocalisationController::class, 'destroy'])->name('localisations.destroy');
+
+    // Routes pour les affectations
+    Route::get('/affectations', [AffectationController::class, 'index'])->name('affectations.index');
+    Route::post('/affectations', [AffectationController::class, 'store'])->name('affectations.store');
+    Route::delete('/affectations/{produit}/{localisation}', [AffectationController::class, 'destroy'])->name('affectations.destroy');
+
+    // Routes pour les produits
+    Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
+});
+//footer
+Route::get('/politique-de-confidentialite', function () {
+    return Inertia::render('PrivacyPolicy');
+})->name('privacy.policy');
+Route::get('/cookies', function () {
+    return Inertia::render('Cookies');
+})->name('cookies.policy');
+Route::get('/conditions-utilisation', function () {
+    return Inertia::render('TermsOfUse');
+})->name('terms.use');
+Route::get('/faq', function () {
+    return Inertia::render('FaqPage');
+})->name('faq.page');

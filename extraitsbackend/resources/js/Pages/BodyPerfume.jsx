@@ -183,8 +183,9 @@ const stopDrag = () => {
             );
           })}
       </div>
-      <Footer />
+      
     </div>
+    <Footer />
   </>
 );
 } 

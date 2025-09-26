@@ -5,7 +5,12 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 // import { StrictMode } from 'react';
 // import App from './components/App';
+import axios from 'axios';
 
+// Configuration globale d'Axios
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({

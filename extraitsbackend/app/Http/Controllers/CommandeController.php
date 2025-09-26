@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Commande;
+use App\Models\Favorite;
 use App\Models\Produit;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -220,18 +221,39 @@ public function destroy($id)
 
     public function dashboard()
 {
-   $commandes = Commande::with('produits')
+ $commandes = Commande::with(['produits', 'services', 'accessoires'])
     ->where('idClient', auth()->id())
     ->latest()
     ->take(3)
     ->get();
-    //  ->pluck('produit');
 
+    //  ->pluck('produit');
+     $favorites = Favorite::with('produit','accessoire','service')
+        ->where('user_id', auth()->id())
+        ->latest()
+        ->take(3)
+        ->get();
+        $latestProduits = Produit::latest()->take(3)->get(); // ✅ ici
 
     return Inertia::render('User/UserDashboard', [
         'auth' => ['user' => Auth::user()],
         'orders' => $commandes,
+        'favorites' => $favorites,
+        'latestProduits' => $latestProduits,
     ]);
 }
 
+ public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'statutCommande' => 'required|in:en_attente,payée,expédiée,livrée,annulée'
+        ]);
+    
+        // Utilisez find() avec idCommande au lieu de l'approche par modèle
+        $commande = Commande::where('idCommande', $id)->firstOrFail();
+        $commande->statutCommande = $request->statutCommande;
+        $commande->save();
+    
+        return response()->json(['message' => 'Statut mis à jour avec succès']);
+    }
 }

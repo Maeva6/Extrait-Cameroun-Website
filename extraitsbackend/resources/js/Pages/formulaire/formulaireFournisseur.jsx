@@ -44,39 +44,30 @@ export default function FormulaireFournisseur() {
 // Configure Axios to include the CSRF token in the headers
 axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-        const response = await axios.post('/fournisseurs', fournisseur);
-
-        // Accepte les réponses 2xx (200, 201, etc.)
-        if (response.status >= 200 && response.status < 300) {
+    
+    router.post('/fournisseurs', fournisseur, {
+        onSuccess: () => {
             setPopupMessage('Fournisseur enregistré avec succès!');
             setPopupType('success');
             setShowPopup(true);
-
-            setTimeout(() => {
-                window.location.href = '/fournisseurs/admin';
-            }, 1500);
-        } else {
-            throw new Error(response.data?.message || "Erreur lors de l'enregistrement");
-        }
-    } catch (error) {
-        console.error('Erreur complète:', error);
-        console.error('Réponse erreur:', error.response);
-        
-        const errorMessage = error.response?.data?.message 
-            || error.response?.data?.error
-            || error.message 
-            || "Une erreur est survenue";
             
-        setPopupMessage(errorMessage);
-        setPopupType('error');
-        setShowPopup(true);
-    } finally {
-        setIsSubmitting(false);
-    }
+            setTimeout(() => {
+                router.visit('/fournisseurs/admin');
+            }, 1500);
+        },
+        onError: (errors) => {
+            const errorMessage = Object.values(errors).join('\n') || "Une erreur est survenue";
+            setPopupMessage(errorMessage);
+            setPopupType('error');
+            setShowPopup(true);
+        },
+        onFinish: () => {
+            setIsSubmitting(false);
+        }
+    });
 };
 
     const handleAnnuler = () => {
@@ -104,18 +95,18 @@ const handleSubmit = async (e) => {
   return (
     <div className="min-h-screen">
       <div className="flex">
-        <Navbar/>
+        {/* <Navbar/> */}
         {/* Espace réservé pour la navbar */}
         <div className="w-0 lg:w-[15px] bg-red"></div>
 
         {/* Contenu principal */}
-        <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[300px]">
+        <div className="max-w-4xl mx-auto p-6 rounded-lg min-h-screen w-full lg:ml-[220px]">
             <h1 className="text-2xl font-bold mb-6">Ajouter un fournisseur</h1>
             
             <form onSubmit={handleSubmit}>
                 {/* Nom du fournisseur */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Nom du fournisseur*</label>
+                    <label className="block text-m font-medium text-gray-700 mb-1">Nom du fournisseur <span className='text-red-500'> *</span></label>
                     <input
                         type="text"
                         name="nomFournisseur"
@@ -130,7 +121,7 @@ const handleSubmit = async (e) => {
                 {/* Contact téléphonique et Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Contact téléphonique</label>
+                        <label className="block text-m font-medium text-gray-700 mb-1">Contact téléphonique</label>
                         <input
                             type="tel"
                             name="contactTel"
@@ -142,7 +133,7 @@ const handleSubmit = async (e) => {
                     </div>
                     
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
+                        <label className="block text-m font-medium text-gray-700 mb-1">Adresse email</label>
                         <input
                             type="email"
                             name="adresseMail"
@@ -156,7 +147,7 @@ const handleSubmit = async (e) => {
 
                 {/* Adresse boutique */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Adresse de la boutique</label>
+                    <label className="block text-m font-medium text-gray-700 mb-1">Adresse de la boutique</label>
                     <textarea
                         name="adresseBoutique"
                         value={fournisseur.adresseBoutique}
@@ -170,7 +161,7 @@ const handleSubmit = async (e) => {
                 {/* Catégorie produit et Site web */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie de produits</label>
+                        <label className="block text-m font-medium text-gray-700 mb-1">Catégorie de produits</label>
                         <select
                             name="categorieProduit"
                             value={fournisseur.categorieProduit}
@@ -187,7 +178,7 @@ const handleSubmit = async (e) => {
                     </div>
                     
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Site web</label>
+                        <label className="block text-m font-medium text-gray-700 mb-1">Site web</label>
                         <div className="flex gap-2">
                             <input
                                 type="text"
@@ -212,7 +203,7 @@ const handleSubmit = async (e) => {
 
                 {/* Note */}
                 <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Note du fournisseur</label>
+                    <label className="block text-m font-medium text-gray-700 mb-1">Note du fournisseur</label>
                     <div className="flex items-center gap-2">
                         {notes.map((n) => (
                             <button

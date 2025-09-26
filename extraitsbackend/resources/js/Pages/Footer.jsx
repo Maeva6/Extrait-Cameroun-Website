@@ -1,4 +1,4 @@
-import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaPhone, FaTwitter, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
 import { Link } from '@inertiajs/react'; // ✅
 
 
@@ -22,13 +22,13 @@ export default function Footer() {
               <Link href="/body-perfume" className="hover:text-[#d4af37] transition-colors">• Tous les parfums</Link>
             </li>
             <li>
-              <Link href="/nouveautes" className="hover:text-[#d4af37] transition-colors">• Nouveautés</Link>
+              <Link to="/nouveautes" className="hover:text-[#d4af37] transition-colors">• Nouveautés</Link>
             </li>
             <li>
-              <Link href="/best-sellers" className="hover:text-[#d4af37] transition-colors">• Best-sellers</Link>
+              <Link to="/best-sellers" className="hover:text-[#d4af37] transition-colors">• Best-sellers</Link>
             </li>
             <li>
-              <Link href="/offres-speciales" className="hover:text-[#d4af37] transition-colors">• Offres spéciales</Link>
+              <Link to="/offres-speciales" className="hover:text-[#d4af37] transition-colors">• Offres spéciales</Link>
             </li>
           </ul>
         </div>
@@ -40,13 +40,13 @@ export default function Footer() {
               <Link href="/contact" className="hover:text-[#d4af37] transition-colors">• Contactez-nous</Link>
             </li>
             <li>
-              <Link href="/livraison-retours" className="hover:text-[#d4af37] transition-colors">• Livraison & Retours</Link>
+              <Link to="/livraison-retours" className="hover:text-[#d4af37] transition-colors">• Livraison & Retours</Link>
             </li>
             <li>
               <Link href="/faq" className="hover:text-[#d4af37] transition-colors">• FAQ</Link>
             </li>
             <li>
-              <Link href="/guide-des-parfums" className="hover:text-[#d4af37] transition-colors">• Guide des parfums</Link>
+              <Link to="/guide-des-parfums" className="hover:text-[#d4af37] transition-colors">• Guide des parfums</Link>
             </li>
           </ul>
         </div>
@@ -55,13 +55,13 @@ export default function Footer() {
           <h5 className="font-semibold mb-2">Légal</h5>
           <ul className="space-y-1">
             <li>
-              <Link to="/conditions-utilisation" className="hover:text-[#d4af37] transition-colors">• Conditions d'utilisation</Link>
+              <Link href="/conditions-utilisation" className="hover:text-[#d4af37] transition-colors">• Conditions d'utilisation</Link>
             </li>
             <li>
-              <Link to="/politique-confidentialite" className="hover:text-[#d4af37] transition-colors">• Politique de confidentialité</Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-[#d4af37] transition-colors">• Politique de confidentialité</Link>
             </li>
             <li>
-              <Link to="/cookies" className="hover:text-[#d4af37] transition-colors">• Cookies</Link>
+              <Link href="/cookies" className="hover:text-[#d4af37] transition-colors">• Cookies</Link>
             </li>
           </ul>
         </div>
@@ -71,12 +71,26 @@ export default function Footer() {
         <a href="https://www.facebook.com/EXTRAITS.CMR" target="_blank" rel="noopener noreferrer">
           <FaFacebookF className="w-5 h-5 hover:text-blue-500" />
         </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com/extraits_cmr?igsh=ZGtqNndxa2dqYzRt" target="_blank" rel="noopener noreferrer">
           <FaInstagram className="w-5 h-5 hover:text-pink-500" />
         </a>
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+        {/* <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
           <FaTwitter className="w-5 h-5 hover:text-sky-400 transition-colors" />
+        </a> */}
+        <a href="https://api.whatsapp.com/send/?phone=23799273209" target="_blank" rel="noopener noreferrer">
+          <FaWhatsapp className="w-5 h-5 hover:text-sky-400 transition-colors" />
         </a>
+        <a href="tel:+237699273209" target="_blank" rel="noopener noreferrer">
+  <FaPhone className="w-5 h-5 hover:text-yellow-600 transition-colors" />
+</a>
+<a
+  href="https://mail.google.com/mail/?view=cm&fs=1&to=extraits1104@gmail.com&su=Demande%20d'information&body=Bonjour%2C%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20produits."
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <FaEnvelope className="w-5 h-5 hover:text-yellow-600 transition-colors" />
+</a>
+
       </div>
 
       <p className="text-center mt-6">© 2025 Extraits Cameroun. Tous droits réservés.</p>
