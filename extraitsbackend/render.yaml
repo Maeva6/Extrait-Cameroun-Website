@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: laravel-backend
+    env: docker
+    plan: free
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        value: https://laravel-backend.onrender.com
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromDatabase:
+          name: mydb
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: mydb
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: mydb
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: mydb
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: mydb
+          property: password
+databases:
+  - name: mydb
+    plan: free
+    engine: mysql
