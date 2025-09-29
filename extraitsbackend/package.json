@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "start": "node dashboard.jsx"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
@@ -42,4 +43,5 @@
         "ziggy-js": "^2.5.3",
         "zustand": "^5.0.5"
     }
+
 }
